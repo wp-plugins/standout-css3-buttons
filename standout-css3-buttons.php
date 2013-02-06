@@ -40,7 +40,7 @@ function css3button($atts, $content = null) {
 	'class' => 'button-dribbble',
       'href' => '#'
       ), $atts ) );
-  return '<a class="' . filter_var($class, FILTER_SANITIZE_STRING) . '" href="' . filter_var($href, FILTER_SANITIZE_URL) . '">' . filter_var($content, FILTER_SANITIZE_STRING) . '</a>';
+  return '<a class="' . filter_var($class, FILTER_SANITIZE_STRING) . '" href="' . filter_var($href, FILTER_SANITIZE_URL) . '">' . do_shortcode($content) . '</a>';
 }
 // -------------------------------------------------------------------
 // CSS file queueing
