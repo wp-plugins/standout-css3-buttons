@@ -32,11 +32,11 @@ If you use and enjoy this plugin, please rate it and click the "Works" button be
 
 Use a shortcode to call the plugin from any page or post like this:
 
-[standout-css3-button class="button-dribbble" href="http://www.google.com/"]Click here[/standout-css3-button]
+`[standout-css3-button class="button-dribbble" href="http://www.google.com/"]Click here[/standout-css3-button]`
 
 This will output the following:
 
-<a class="button-dribbble" href="http://www.google.com/">Click here</a>
+`<a class="button-dribbble" href="http://www.google.com/">Click here</a>`
 
 You can also use the shortcode in your PHP code (functions.php, or a plugin) using the <a href="http://codex.wordpress.org/Function_Reference/do_shortcode">do_shortcode</a> function, ex:
 
