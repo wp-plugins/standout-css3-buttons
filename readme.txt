@@ -57,7 +57,9 @@ The default value for the class attribute is "button-dribbble". Leave out this p
 
 == Screenshots ==
 
-See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post from Brian Gardner</a> for examples.
+1. This is what the buttons look like.
+
+See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post from Brian Gardner</a> for more.
 
 == Changelog ==
 
