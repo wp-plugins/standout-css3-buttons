@@ -85,7 +85,11 @@ The following styles are available.
 
 = I added the shortcode to a page but I don't see anything. =
 
-The page is probably cached. Make sure you refresh your browser and clear your caching plugin.
+Clear your browser cache and also clear your cache plugin (if any). If you still don't see anything, check your webpage source for the following:
+
+`<!-- Standout CSS3 Buttons: plugin is disabled. Check Settings page. -->`
+
+This means you didn't pass a necessary setting to the plugin. For color buttons, you must specify the URL. You should also check that the "enabled" checkbox on the plugin settings page is checked.
 
 = I don't want the post editor toolbar buttons. How do I remove them? =
 
@@ -101,6 +105,10 @@ See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post 
 
 == Changelog ==
 
+= 0.0.3 =
+- updated admin messages code
+- updated readme
+
 = 0.0.2 = 
 * added admin menu
 * code refactoring
@@ -113,6 +121,10 @@ See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post 
 created
 
 == Upgrade Notice ==
+
+= 0.0.3 =
+- updated admin messages code
+- updated readme
 
 = 0.0.2 = 
 * added admin menu

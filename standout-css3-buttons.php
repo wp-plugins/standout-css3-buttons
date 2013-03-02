@@ -3,13 +3,13 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons on your website using popular social media colors.
-Version: 0.0.2
+Version: 0.0.3
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 // plugin constants
-define('SCSS3B_VERSION', '0.0.2');
+define('SCSS3B_VERSION', '0.0.3');
 define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 define('SCSS3B_SLUG', 'standout-css3-buttons');
 define('SCSS3B_LOCAL', 'scss3b');
@@ -173,12 +173,14 @@ function scss3b_showAdminMessages() {
   if (current_user_can('manage_options')) { // user has privilege
     if ($pagenow == 'options-general.php') {
       if ($_GET['page'] == SCSS3B_SLUG) { // we are on JP's Get RSS Feed settings page
-        $options = get_option(SCSS3B_OPTION); // don't use encapsulated function here
-	  $isenabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
-	  if (!$isenabled) {
-	    echo '<div class="updated">' . SCSS3B_PLUGIN_NAME . ' ' . __('is currently disabled.', SCSS3B_LOCAL) . '</div>';
-	  }
-	}
+        $options = scss3b_getpluginoptions(); // get_option(SCSS3B_OPTION); // don't use encapsulated function here
+				if ($options) {
+					$isenabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
+					if ($isenabled === false) {
+						echo '<div class="updated">' . SCSS3B_PLUGIN_NAME . ' ' . __('is currently disabled.', SCSS3B_LOCAL) . '</div>';
+					}
+				}
+			}
     } // end page check
   } // end privilege check
 }
