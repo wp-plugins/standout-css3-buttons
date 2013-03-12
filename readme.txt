@@ -1,5 +1,5 @@
 === Standout CSS3 Buttons ===
-Tags: css3, button, gradient, link
+Tags: css3, button, gradient, link, rounded
 Requires at least: 3.5
 Tested up to: 3.5.1
 Contributors: jp2112
@@ -62,7 +62,7 @@ function show_css3_button($content) {
 By default, following values are passed to the plugin:
 
 - enabled => true
-- style => dribble
+- style => button-dribbble
 - url => ''
 - nofollow => true
 
@@ -81,7 +81,23 @@ The following styles are available.
 <li>button-rss</li>
 <li>button-tumblr</li>
 <li>button-twitter</li>
+<li>button-turquoise</li>
+<li>button-emerald</li>
+<li>button-somekindofblue</li>
+<li>button-amethyst</li>
+<li>button-bluegray</li>
+<li>button-tangerine</li>
+<li>button-fall</li>
+<li>button-adobe</li>
+<li>button-lightgray</li>
+<li>button-dull</li>
+<li>button-fancypurple</li>
+<li>button-dullpurple</li>
+<li>button-crispblue</li>
+<li>button-braised</li>
 </ul>
+
+See http://www.jimmyscode.com/wordpress/standout-css3-buttons/ for a live demo.
 
 = I added the shortcode to a page but I don't see anything. =
 
@@ -105,6 +121,11 @@ See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post 
 
 == Changelog ==
 
+= 0.0.4 =
+- moved quicktag script further down the page
+- minor admin page update
+- added 14 new button color sets
+
 = 0.0.3 =
 - updated admin messages code
 - updated readme
@@ -121,6 +142,11 @@ See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post 
 created
 
 == Upgrade Notice ==
+
+= 0.0.4 =
+- moved quicktag script further down the page
+- minor admin page update
+- added 14 new button color sets
 
 = 0.0.3 =
 - updated admin messages code

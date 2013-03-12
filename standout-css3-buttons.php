@@ -3,13 +3,13 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons on your website using popular social media colors.
-Version: 0.0.3
+Version: 0.0.4
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 // plugin constants
-define('SCSS3B_VERSION', '0.0.3');
+define('SCSS3B_VERSION', '0.0.4');
 define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 define('SCSS3B_SLUG', 'standout-css3-buttons');
 define('SCSS3B_LOCAL', 'scss3b');
@@ -19,7 +19,7 @@ define('SCSS3B_DEFAULT_ENABLED', 1);
 define('SCSS3B_DEFAULT_STYLE', 'button-dribbble');
 define('SCSS3B_DEFAULT_URL', '');
 define('SCSS3B_DEFAULT_NOFOLLOW', 1);
-define('SCSS3B_AVAILABLE_STYLES', 'button-dribbble,button-facebook,button-googleplus,button-linkedin,button-pinterest,button-rss,button-tumblr,button-twitter');
+define('SCSS3B_AVAILABLE_STYLES', 'button-dribbble,button-facebook,button-googleplus,button-linkedin,button-pinterest,button-rss,button-tumblr,button-twitter,button-turquoise,button-emerald,button-somekindofblue,button-amethyst,button-bluegray,button-tangerine,button-fall,button-adobe,button-lightgray,button-dull,button-fancypurple,button-dullpurple,button-crispblue,button-braised');
 /* option array member names */
 define('SCSS3B_DEFAULT_ENABLED_NAME', 'enabled');
 define('SCSS3B_DEFAULT_STYLE_NAME', 'buttonstyle');
@@ -27,7 +27,7 @@ define('SCSS3B_DEFAULT_URL_NAME', 'defaulturl');
 define('SCSS3B_DEFAULT_NOFOLLOW_NAME', 'nofollow');
 
 // add custom quicktag
-add_action('admin_print_footer_scripts', 'add_scss3b_quicktag');
+add_action('admin_print_footer_scripts', 'add_scss3b_quicktag', 100);
 function add_scss3b_quicktag() {
 ?>
 <script>
@@ -69,12 +69,11 @@ function scss3b_page() {
       <?php $options = scss3b_getpluginoptions(); ?>
       <?php update_option(SCSS3B_OPTION, $options); ?>
       <table class="form-table">
-        <tr valign="top"><th scope="row"><?php _e('Plugin enabled?', SCSS3B_LOCAL); ?></th>
+        <tr valign="top"><th scope="row"><strong><label for="scss3b[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]"><?php _e('Plugin enabled?', SCSS3B_LOCAL); ?></label></strong></th>
 		<td><input type="checkbox" name="scss3b[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_ENABLED_NAME]); ?> /></td>
         </tr>
 	  <tr valign="top"><td colspan="2"><?php _e('Is plugin enabled? Uncheck this to turn it off temporarily.', SCSS3B_LOCAL); ?></td></tr>
-
-        <tr valign="top"><th scope="row"><?php _e('Default style', SCSS3B_LOCAL); ?></th>
+        <tr valign="top"><th scope="row"><strong><label for="scss3b[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]"><?php _e('Default style', SCSS3B_LOCAL); ?></label></strong></th>
 		<td><select name="scss3b[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]">
                 <?php $buttonstyles = explode(",", SCSS3B_AVAILABLE_STYLES);
                       foreach($buttonstyles as $buttonstyle) {
@@ -85,17 +84,14 @@ function scss3b_page() {
             </select></td>
         </tr>
 	  <tr valign="top"><td colspan="2"><?php _e('Select the style you would like to use as the default.', SCSS3B_LOCAL); ?></td></tr>
-
-        <tr valign="top"><th scope="row"><?php _e('Default button URL', SCSS3B_LOCAL); ?></th>
+        <tr valign="top"><th scope="row"><strong><label for="scss3b[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]"><?php _e('Default button URL', SCSS3B_LOCAL); ?></label></strong></th>
 		<td><input type="text" name="scss3b[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" value="<?php echo $options[SCSS3B_DEFAULT_URL_NAME]; ?>" style="width:500px" /></td>
         </tr>
 	  <tr valign="top"><td colspan="2"><?php _e('Enter default URL to use for buttons, if you do not pass one to the plugin via shortcode or function.', SCSS3B_LOCAL); ?></td></tr>
-
-        <tr valign="top"><th scope="row"><?php _e('Nofollow button link?', SCSS3B_LOCAL); ?></th>
+        <tr valign="top"><th scope="row"><strong><label for="scss3b[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]"><?php _e('Nofollow button link?', SCSS3B_LOCAL); ?></label></strong></th>
 		<td><input type="checkbox" name="scss3b[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NOFOLLOW_NAME]); ?> /></td>
         </tr>
 	  <tr valign="top"><td colspan="2"><?php _e('Check this box to add rel="nofollow" to button links.', SCSS3B_LOCAL); ?></td></tr>
-
       </table>
       <p class="submit">
       <input type="submit" class="button-primary" value="<?php _e('Save Changes', SCSS3B_LOCAL); ?>" />
@@ -174,13 +170,13 @@ function scss3b_showAdminMessages() {
     if ($pagenow == 'options-general.php') {
       if ($_GET['page'] == SCSS3B_SLUG) { // we are on JP's Get RSS Feed settings page
         $options = scss3b_getpluginoptions(); // get_option(SCSS3B_OPTION); // don't use encapsulated function here
-				if ($options) {
-					$isenabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
-					if ($isenabled === false) {
-						echo '<div class="updated">' . SCSS3B_PLUGIN_NAME . ' ' . __('is currently disabled.', SCSS3B_LOCAL) . '</div>';
-					}
-				}
-			}
+        if ($options) {
+	    $isenabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
+	    if ($isenabled === false) {
+		echo '<div class="updated">' . SCSS3B_PLUGIN_NAME . ' ' . __('is currently disabled.', SCSS3B_LOCAL) . '</div>';
+	    }
+	  }
+	}
     } // end page check
   } // end privilege check
 }
