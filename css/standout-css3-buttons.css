@@ -22,7 +22,10 @@ a.button-dull,
 a.button-fancypurple,
 a.button-dullpurple,
 a.button-crispblue,
-a.button-braised {
+a.button-braised,
+a.button-midnight,
+a.button-salmon,
+a.button-neongreen {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
@@ -35,6 +38,11 @@ a.button-braised {
     text-align: center;
     width: 130px;
     text-decoration:none
+}
+
+a.button-lightgray,
+a.button-neongreen {
+  color:#000
 }
 
 /* specific rules for each button */
@@ -177,8 +185,8 @@ a.button-emerald {
     background: -ms-linear-gradient(top, #2ECC71, #27AE60);
     background: -webkit-linear-gradient(top, #2ECC71, #27AE60);
     background: linear-gradient(top, #2ECC71, #27AE60);
-    border: 1px solid  #27AE60;
-    text-shadow: 0 -1px -1px  #27AE60;
+    border: 1px solid #27AE60;
+    text-shadow: 0 -1px -1px #27AE60;
 }
 a.button-emerald:hover {
     background: -moz-linear-gradient(top, #27AE60, #2ECC71);
@@ -192,8 +200,8 @@ a.button-somekindofblue {
     background: -ms-linear-gradient(top, #3498DB, #2980B9);
     background: -webkit-linear-gradient(top, #3498DB, #2980B9);
     background: linear-gradient(top, #3498DB, #2980B9);
-    border: 1px solid  #2980B9;
-    text-shadow: 0 -1px -1px  #2980B9;
+    border: 1px solid #2980B9;
+    text-shadow: 0 -1px -1px #2980B9;
 }
 a.button-somekindofblue:hover {
     background: -moz-linear-gradient(top, #2980B9, #3498DB);
@@ -207,8 +215,8 @@ a.button-amethyst {
     background: -ms-linear-gradient(top, #9B59B6, #8E44AD);
     background: -webkit-linear-gradient(top, #9B59B6, #8E44AD);
     background: linear-gradient(top, #9B59B6, #8E44AD);
-    border: 1px solid  #8E44AD;
-    text-shadow: 0 -1px -1px  #8E44AD;
+    border: 1px solid #8E44AD;
+    text-shadow: 0 -1px -1px #8E44AD;
 }
 a.button-amethyst:hover {
     background: -moz-linear-gradient(top, #8E44AD, #9B59B6);
@@ -222,8 +230,8 @@ a.button-bluegray {
     background: -ms-linear-gradient(top, #34495E, #2C3E50);
     background: -webkit-linear-gradient(top, #34495E, #2C3E50);
     background: linear-gradient(top, #34495E, #2C3E50);
-    border: 1px solid  #2C3E50;
-    text-shadow: 0 -1px -1px  #2C3E50;
+    border: 1px solid #2C3E50;
+    text-shadow: 0 -1px -1px #2C3E50;
 }
 a.button-bluegray:hover {
     background: -moz-linear-gradient(top, #2C3E50, #34495E);
@@ -237,8 +245,8 @@ a.button-tangerine {
     background: -ms-linear-gradient(top, #F1C40F, #F39C12);
     background: -webkit-linear-gradient(top, #F1C40F, #F39C12);
     background: linear-gradient(top, #F1C40F, #F39C12);
-    border: 1px solid  #F39C12;
-    text-shadow: 0 -1px -1px  #F39C12;
+    border: 1px solid #F39C12;
+    text-shadow: 0 -1px -1px #F39C12;
 }
 a.button-tangerine:hover {
     background: -moz-linear-gradient(top, #F39C12, #F1C40F);
@@ -252,8 +260,8 @@ a.button-fall {
     background: -ms-linear-gradient(top, #E67E22, #D35400);
     background: -webkit-linear-gradient(top, #E67E22, #D35400);
     background: linear-gradient(top, #E67E22, #D35400);
-    border: 1px solid  #D35400;
-    text-shadow: 0 -1px -1px  #D35400;
+    border: 1px solid #D35400;
+    text-shadow: 0 -1px -1px #D35400;
 }
 a.button-fall:hover {
     background: -moz-linear-gradient(top, #D35400, #E67E22);
@@ -267,8 +275,8 @@ a.button-adobe {
     background: -ms-linear-gradient(top, #E74C3C, #C0392B);
     background: -webkit-linear-gradient(top, #E74C3C, #C0392B);
     background: linear-gradient(top, #E74C3C, #C0392B);
-    border: 1px solid  #C0392B;
-    text-shadow: 0 -1px -1px  #C0392B;
+    border: 1px solid #C0392B;
+    text-shadow: 0 -1px -1px #C0392B;
 }
 a.button-adobe:hover {
     background: -moz-linear-gradient(top, #C0392B, #E74C3C);
@@ -282,8 +290,8 @@ a.button-lightgray {
     background: -ms-linear-gradient(top, #ECF0F1, #BDC3C7);
     background: -webkit-linear-gradient(top, #ECF0F1, #BDC3C7);
     background: linear-gradient(top, #ECF0F1, #BDC3C7);
-    border: 1px solid  #BDC3C7;
-    text-shadow: 0 -1px -1px  #BDC3C7;
+    border: 1px solid #BDC3C7;
+    text-shadow: 0 -1px -1px #BDC3C7;
 }
 a.button-lightgray:hover {
     background: -moz-linear-gradient(top, #BDC3C7, #ECF0F1);
@@ -297,8 +305,8 @@ a.button-dull {
     background: -ms-linear-gradient(top, #95A5A6, #7F8C8D);
     background: -webkit-linear-gradient(top, #95A5A6, #7F8C8D);
     background: linear-gradient(top, #95A5A6, #7F8C8D);
-    border: 1px solid  #7F8C8D;
-    text-shadow: 0 -1px -1px  #7F8C8D;
+    border: 1px solid #7F8C8D;
+    text-shadow: 0 -1px -1px #7F8C8D;
 }
 a.button-dull:hover {
     background: -moz-linear-gradient(top, #7F8C8D, #95A5A6);
@@ -312,8 +320,8 @@ a.button-fancypurple {
     background: -ms-linear-gradient(top, #9999FF, #6666CC);
     background: -webkit-linear-gradient(top, #9999FF, #6666CC);
     background: linear-gradient(top, #9999FF, #6666CC);
-    border: 1px solid  #6666CC;
-    text-shadow: 0 -1px -1px  #6666CC;
+    border: 1px solid #6666CC;
+    text-shadow: 0 -1px -1px #6666CC;
 }
 a.button-fancypurple:hover {
     background: -moz-linear-gradient(top, #6666CC, #9999FF);
@@ -327,8 +335,8 @@ a.button-dullpurple {
     background: -ms-linear-gradient(top, #9999CC, #666699);
     background: -webkit-linear-gradient(top, #9999CC, #666699);
     background: linear-gradient(top, #9999CC, #666699);
-    border: 1px solid  #666699;
-    text-shadow: 0 -1px -1px  #666699;
+    border: 1px solid #666699;
+    text-shadow: 0 -1px -1px #666699;
 }
 a.button-dullpurple:hover {
     background: -moz-linear-gradient(top, #666699, #9999CC);
@@ -342,8 +350,8 @@ a.button-crispblue {
     background: -ms-linear-gradient(top, #0083D7, #0066CC);
     background: -webkit-linear-gradient(top, #0083D7, #0066CC);
     background: linear-gradient(top, #0083D7, #0066CC);
-    border: 1px solid  #0066CC;
-    text-shadow: 0 -1px -1px  #0066CC;
+    border: 1px solid #0066CC;
+    text-shadow: 0 -1px -1px #0066CC;
 }
 a.button-crispblue:hover {
     background: -moz-linear-gradient(top, #0066CC, #0083D7);
@@ -357,12 +365,58 @@ a.button-braised {
     background: -ms-linear-gradient(top, #FFCC00, #CC9900);
     background: -webkit-linear-gradient(top, #FFCC00, #CC9900);
     background: linear-gradient(top, #FFCC00, #CC9900);
-    border: 1px solid  #CC9900;
-    text-shadow: 0 -1px -1px  #CC9900;
+    border: 1px solid #CC9900;
+    text-shadow: 0 -1px -1px #CC9900;
 }
 a.button-braised:hover {
     background: -moz-linear-gradient(top, #CC9900, #FFCC00);
     background: -ms-linear-gradient(top, #CC9900, #FFCC00);
     background: -webkit-linear-gradient(top, #CC9900, #FFCC00);
     background: linear-gradient(top, #CC9900, #FFCC00);
+}
+a.button-midnight {
+    background-color: #000; /* fallback color */
+    background: -moz-linear-gradient(top, #202020, #000);
+    background: -ms-linear-gradient(top, #202020, #000);
+    background: -webkit-linear-gradient(top, #202020, #000);
+    background: linear-gradient(top, #202020, #000);
+    border: 1px solid #000;
+    text-shadow: 0 -1px -1px #202020;
+}
+a.button-midnight:hover {
+    background: -moz-linear-gradient(top, #000, #202020);
+    background: -ms-linear-gradient(top, #000, #202020);
+    background: -webkit-linear-gradient(top, #000, #202020);
+    background: linear-gradient(top, #000, #202020);
+}
+
+a.button-salmon {
+    background-color: #CD5C5C; /* fallback color */
+    background: -moz-linear-gradient(top, #F08080, #CD5C5C);
+    background: -ms-linear-gradient(top, #F08080, #CD5C5C);
+    background: -webkit-linear-gradient(top, #F08080, #CD5C5C);
+    background: linear-gradient(top, #F08080, #CD5C5C);
+    border: 1px solid #CD5C5C;
+    text-shadow: 0 -1px -1px #CD5C5C;
+}
+a.button-salmon:hover {
+    background: -moz-linear-gradient(top, #CD5C5C, #F08080);
+    background: -ms-linear-gradient(top, #CD5C5C, #F08080);
+    background: -webkit-linear-gradient(top, #CD5C5C, #F08080);
+    background: linear-gradient(top, #CD5C5C, #F08080);
+}
+a.button-neongreen {
+    background-color: #7CFC00; /* fallback color */
+    background: -moz-linear-gradient(top, #ADFF2F, #7CFC00);
+    background: -ms-linear-gradient(top, #ADFF2F, #7CFC00);
+    background: -webkit-linear-gradient(top, #ADFF2F, #7CFC00);
+    background: linear-gradient(top, #ADFF2F, #7CFC00);
+    border: 1px solid #7CFC00;
+    text-shadow: 0 -1px -1px #7CFC00;
+}
+a.button-neongreen:hover {
+    background: -moz-linear-gradient(top, #7CFC00, #ADFF2F);
+    background: -ms-linear-gradient(top, #7CFC00, #ADFF2F);
+    background: -webkit-linear-gradient(top, #7CFC00, #ADFF2F);
+    background: linear-gradient(top, #7CFC00, #ADFF2F);
 }

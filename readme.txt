@@ -18,6 +18,13 @@ Based on <a href="http://www.briangardner.com/social-media-buttons/">this blog p
 
 You can also call the plugin in your functions.php or in a plugin. Choose from several different social media color styles.
 
+= Features =
+
+- Create unlimited number of modern style buttons
+- Works with most browsers, but degrades nicely in older browsers
+- CSS3 compliant
+- CSS only loads on pages with shortcode or function call
+
 If you use and enjoy this plugin, please rate it and click the "Works" button below so others know that it works with the latest version of WordPress.
 
 == Installation ==
@@ -40,7 +47,7 @@ Use a shortcode to call the plugin from any page or post like this:
 
 This will output the following:
 
-`<a class="button-dribbble" href="http://www.google.com/">Click here</a>`
+`<a class="button-dribbble" href="http://www.google.com/" rel="nofollow">Click here</a>`
 
 You may also include shortcodes within the shortcode.
 
@@ -53,8 +60,9 @@ You can also call the PHP function like this:
 `add_action('the_content', 'show_css3_button');
 function show_css3_button($content) {
   if (is_page('home')) {
-    scss3button(array('class' => 'button-rss', 'href' => 'http://www.google.com/', 'show' => true), 'Click here');
+    $content .= scss3button(array('class' => 'button-rss', 'href' => 'http://www.google.com/', 'show' => true), 'Click here');
   }
+  return $content;
 }`
 
 = What are the plugin defaults? =
@@ -95,6 +103,7 @@ The following styles are available.
 <li>button-dullpurple</li>
 <li>button-crispblue</li>
 <li>button-braised</li>
+<li>button-midnight</li>
 </ul>
 
 See http://www.jimmyscode.com/wordpress/standout-css3-buttons/ for a live demo.
@@ -113,6 +122,10 @@ Add this to your functions.php:
 
 `remove_action('admin_print_footer_scripts', 'add_scss3b_quicktag');`
 
+= I cleared my browser cache and my caching plugin but the buttons still look wrong. =
+
+Are you using a plugin that minifies CSS? If so, try excluding the plugin CSS file from minification.
+
 == Screenshots ==
 
 1. This is what the buttons look like.
@@ -120,6 +133,11 @@ Add this to your functions.php:
 See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post from Brian Gardner</a> and the <a href="http://www.jimmyscode.com/wordpress/standout-css3-buttons/">plugin demo page</a> for more.
 
 == Changelog ==
+
+= 0.0.5 =
+- added new colors (midnight, salmon, neongreen)
+- another minor admin page update
+- updated readme.txt
 
 = 0.0.4 =
 - moved quicktag script further down the page
@@ -142,6 +160,11 @@ See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post 
 created
 
 == Upgrade Notice ==
+
+= 0.0.5 =
+- added new colors (midnight, salmon, neongreen)
+- another minor admin page update
+- updated readme.txt
 
 = 0.0.4 =
 - moved quicktag script further down the page
