@@ -3,7 +3,7 @@ Tags: css3, button, gradient, link, rounded, CSS button
 Requires at least: 3.5
 Tested up to: 3.5.1
 Contributors: jp2112
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NRHAAC7Q9Q2X6
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -85,6 +85,8 @@ Also, by default, values are returned, not echoed. You need to explicitly reques
 
 To change defaults on a site-wide basis, go to the Settings page. To change defaults on a per-shortcode basis, pass new values to each shortcode or function call. Priority is given to parameters passed via shortcode or function.
 
+The plugin arguments and default values may change over time. To get the latest list of arguments and defaults, look at the settings page.
+
 = What styles are available? =
 
 The following styles are available.
@@ -136,6 +138,21 @@ Add this to your functions.php:
 
 `remove_action('admin_print_footer_scripts', 'add_scss3b_quicktag');`
 
+= I don't want the admin CSS. How do I remove it? =
+
+Add this to your functions.php:
+
+`remove_action('admin_head', 'insert_scss3b_admin_css');`
+
+= I don't want the plugin CSS. How do I remove it? =
+
+Add this to your functions.php:
+
+`add_action('wp_enqueue_scripts', 'remove_scss3b_style');
+function remove_scss3b_style() {
+  wp_deregister_style('standout_css3_button_style');
+}`
+
 == Screenshots ==
 
 1. This is what the buttons look like.
@@ -143,6 +160,13 @@ Add this to your functions.php:
 See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post from Brian Gardner</a> and the <a href="http://www.jimmyscode.com/wordpress/standout-css3-buttons/">plugin demo page</a> for more.
 
 == Changelog ==
+
+= 0.0.7 =
+- added donate link on admin page
+- admin page CSS added
+- various admin page tweaks
+- minor code refactoring
+- added shortcode defaults display on settings page
 
 = 0.0.6 =
 - added new colors (brown)
@@ -177,6 +201,13 @@ See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post 
 created
 
 == Upgrade Notice ==
+
+= 0.0.7 =
+- added donate link on admin page
+- admin page CSS added
+- various admin page tweaks
+- minor code refactoring
+- added shortcode defaults display on settings page
 
 = 0.0.6 =
 - added new colors (brown)
