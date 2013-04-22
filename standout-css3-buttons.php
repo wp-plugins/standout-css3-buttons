@@ -3,13 +3,13 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons on your website using popular social media colors.
-Version: 0.0.7
+Version: 0.0.8
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 // plugin constants
-define('SCSS3B_VERSION', '0.0.7');
+define('SCSS3B_VERSION', '0.0.8');
 define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 define('SCSS3B_SLUG', 'standout-css3-buttons');
 define('SCSS3B_LOCAL', 'scss3b');
@@ -30,15 +30,6 @@ define('SCSS3B_DEFAULT_NOFOLLOW_NAME', 'nofollow');
 define('SCSS3B_DEFAULT_NEWWINDOW_NAME', 'opennewwindow');
 define('SCSS3B_DEFAULT_SHOW_NAME', 'show');
 
-// add custom quicktag for post editor
-add_action('admin_print_footer_scripts', 'add_scss3b_quicktag', 100);
-function add_scss3b_quicktag() {
-?>
-<script>
-QTags.addButton('scss3b', 'CSS3 Button', '[standout-css3-button]', '[/standout-css3-button]', '', 'Standout CSS3 Button', '');
-</script>
-<?php }
-
 // localization to allow for translations
 // also, register the plugin CSS file for later inclusion
 add_action('init', 'scss3b_translation_file');
@@ -53,6 +44,7 @@ add_action('admin_init', 'scss3b_options_init');
 function scss3b_options_init() {
   register_setting('scss3b_options', SCSS3B_OPTION, 'scss3b_validation');
   register_scss3b_admin_style();
+	register_scss3b_admin_script();
 }
 // validation function
 function scss3b_validation($input) {
@@ -83,7 +75,7 @@ function scss3b_page() {
     <?php screen_icon(); ?>
     <h2><?php echo SCSS3B_PLUGIN_NAME; ?></h2>
     <form method="post" action="options.php">
-      <?php submit_button(); ?>
+      <div>You are running plugin version <strong><?php echo SCSS3B_VERSION; ?></strong>.</div>
       <?php settings_fields('scss3b_options'); ?>
       <?php $options = scss3b_getpluginoptions(); ?>
       <?php update_option(SCSS3B_OPTION, $options); ?>
@@ -95,6 +87,7 @@ function scss3b_page() {
         <tr valign="top"><th scope="row"><strong><label title="<?php _e('Select the style you would like to use as the default.', SCSS3B_LOCAL); ?>" for="scss3b[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]"><?php _e('Default style', SCSS3B_LOCAL); ?></label></strong></th>
           <td><select id="scss3b[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]" name="scss3b[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]">
           <?php $buttonstyles = explode(",", SCSS3B_AVAILABLE_STYLES);
+            sort($buttonstyles);
             foreach($buttonstyles as $buttonstyle) {
               echo '<option value="' . $buttonstyle . '"' . selected($buttonstyle, $options[SCSS3B_DEFAULT_STYLE_NAME]) . '>' . $buttonstyle . '</option>';
             } ?>
@@ -318,6 +311,20 @@ function register_scss3b_admin_style() {
     array(),
     WPPRS_VERSION,
     'all');
+}
+// enqueue/register the admin JS file
+add_action('admin_enqueue_scripts', 'scss3b_ed_buttons');
+function scss3b_ed_buttons($hook) {
+  if (($hook == 'post-new.php') || ($hook == 'post.php')) {
+    wp_enqueue_script('scss3b_add_editor_button');
+  }
+}
+function register_scss3b_admin_script() {
+  wp_register_script('scss3b_add_editor_button',
+    plugins_url(plugin_basename(dirname(__FILE__)) . '/js/editor_button.js'), 
+    array('quicktags'), 
+    SCSS3B_VERSION, 
+    true);
 }
 // when plugin is activated, create options array and populate with defaults
 register_activation_hook(__FILE__, 'scss3b_activate');

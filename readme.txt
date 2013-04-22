@@ -74,18 +74,7 @@ This will add a button (with `button-rss` color style) at the end of your conten
 
 = What are the plugin defaults? =
 
-By default, following values are passed to the plugin:
-
-- cssclass => button-dribbble
-- href => ''
-- nofollow => true
-- opennewwindow => false
-
-Also, by default, values are returned, not echoed. You need to explicitly request that the plugin output be echoed by passing `'show' => true` in the array when calling the plugin via function.
-
-To change defaults on a site-wide basis, go to the Settings page. To change defaults on a per-shortcode basis, pass new values to each shortcode or function call. Priority is given to parameters passed via shortcode or function.
-
-The plugin arguments and default values may change over time. To get the latest list of arguments and defaults, look at the settings page.
+The plugin arguments and default values may change over time. To get the latest list of arguments and defaults, look at the settings page after installing the plugin.
 
 = What styles are available? =
 
@@ -132,11 +121,15 @@ This means you didn't pass a necessary setting to the plugin. For color buttons,
 
 Are you using a plugin that minifies CSS? If so, try excluding the plugin CSS file from minification.
 
-= I don't want the post editor toolbar buttons. How do I remove them? =
+= I cleared my cache and still don't see what I want. =
+
+The CSS files include a `?ver` query parameter. This parameter is incremented with every upgrade in order to bust caches. Make sure none of your plugins or functions are stripping this query parameter. Also, if you are using a CDN, flush it or send an invalidation request for the plugin CSS files so that the edge servers request a new copy of it.
+
+= I don't want the post editor toolbar button. How do I remove it? =
 
 Add this to your functions.php:
 
-`remove_action('admin_print_footer_scripts', 'add_scss3b_quicktag');`
+`remove_action('admin_enqueue_scripts', 'scss3b_ed_buttons');`
 
 = I don't want the admin CSS. How do I remove it? =
 
@@ -155,11 +148,13 @@ function remove_scss3b_style() {
 
 == Screenshots ==
 
-1. This is what the buttons look like.
-
-See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post from Brian Gardner</a> and the <a href="http://www.jimmyscode.com/wordpress/standout-css3-buttons/">plugin demo page</a> for more.
+1. Settings page
+2. All buttons
 
 == Changelog ==
+
+= 0.0.8 =
+- minor code refactoring
 
 = 0.0.7 =
 - added donate link on admin page
@@ -201,6 +196,9 @@ See  <a href="http://www.briangardner.com/social-media-buttons/">this blog post 
 created
 
 == Upgrade Notice ==
+
+= 0.0.8 =
+- minor code refactoring
 
 = 0.0.7 =
 - added donate link on admin page
