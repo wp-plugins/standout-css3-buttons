@@ -3,13 +3,13 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons on your website using popular social media colors.
-Version: 0.0.8
+Version: 0.0.9
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 // plugin constants
-define('SCSS3B_VERSION', '0.0.8');
+define('SCSS3B_VERSION', '0.0.9');
 define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 define('SCSS3B_SLUG', 'standout-css3-buttons');
 define('SCSS3B_LOCAL', 'scss3b');
@@ -102,10 +102,10 @@ function scss3b_page() {
 		<td><input type="checkbox" id="scss3b[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" name="scss3b[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NOFOLLOW_NAME]); ?> /></td>
         </tr>
 	  <tr valign="top"><td colspan="2"><?php _e('Check this box to add rel="nofollow" to button links.', SCSS3B_LOCAL); ?></td></tr>
-        <tr valign="top"><th scope="row"><strong><label title="<?php _e('Check this box to open links in a new window. target=_blank will be added to all links', SCSS3B_LOCAL); ?>" for="scss3b[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]"><?php _e('Open links in new window?', SCSS3B_LOCAL); ?></label></strong></th>
+        <tr valign="top"><th scope="row"><strong><label title="<?php _e('Check this box to open links in a new window.', SCSS3B_LOCAL); ?>" for="scss3b[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]"><?php _e('Open links in new window?', SCSS3B_LOCAL); ?></label></strong></th>
 		<td><input type="checkbox" id="scss3b[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" name="scss3b[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NEWWINDOW_NAME]); ?> /></td>
         </tr>
-	  <tr valign="top"><td colspan="2"><?php _e('Check this box to open links in a new window. target="_blank" will be added to all links', SCSS3B_LOCAL); ?></td></tr>
+	  <tr valign="top"><td colspan="2"><?php _e('Check this box to open links in a new window.', SCSS3B_LOCAL); ?></td></tr>
       </table>
       <?php submit_button(); ?>
     </form>
@@ -230,7 +230,7 @@ function scss3button($atts, $content = null) {
     }
     // enqueue CSS only on pages with shortcode
     wp_enqueue_style('standout_css3_button_style');
-    $output = '<a' . ($opennewwindow ? ' target="_blank" ' : ' ') . 'class="' . $cssclass . '" href="' . $url . '"' . ($nofollow ? ' rel="nofollow"' : '') . '>' . do_shortcode(wp_kses_post(force_balance_tags($content))) . '</a>';
+    $output = '<a' . ($opennewwindow ? ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;" ' : ' ') . 'class="' . $cssclass . '" href="' . $url . '"' . ($nofollow ? ' rel="nofollow"' : '') . '>' . do_shortcode(wp_kses_post(force_balance_tags($content))) . '</a>';
   } else { // plugin disabled
     $output = '<!-- ' . SCSS3B_PLUGIN_NAME . ': plugin is disabled. Either you did not pass a necessary setting to the plugin, or did not configure a default. Check Settings page. -->';
   }
@@ -335,7 +335,14 @@ function scss3b_activate() {
 // generic function that returns plugin options from DB
 // if option does not exist, returns plugin defaults
 function scss3b_getpluginoptions() {
-  return get_option(SCSS3B_OPTION, array(SCSS3B_DEFAULT_ENABLED_NAME => SCSS3B_DEFAULT_ENABLED, SCSS3B_DEFAULT_STYLE_NAME => SCSS3B_DEFAULT_STYLE, SCSS3B_DEFAULT_URL_NAME => SCSS3B_DEFAULT_URL, SCSS3B_DEFAULT_NOFOLLOW_NAME => SCSS3B_DEFAULT_NOFOLLOW, SCSS3B_DEFAULT_NEWWINDOW_NAME => SCSS3B_DEFAULT_NEWWINDOW));
+  return get_option(SCSS3B_OPTION, 
+    array(
+      SCSS3B_DEFAULT_ENABLED_NAME => SCSS3B_DEFAULT_ENABLED, 
+      SCSS3B_DEFAULT_STYLE_NAME => SCSS3B_DEFAULT_STYLE, 
+      SCSS3B_DEFAULT_URL_NAME => SCSS3B_DEFAULT_URL, 
+      SCSS3B_DEFAULT_NOFOLLOW_NAME => SCSS3B_DEFAULT_NOFOLLOW, 
+      SCSS3B_DEFAULT_NEWWINDOW_NAME => SCSS3B_DEFAULT_NEWWINDOW
+    ));
 }
 // function to return shortcode defaults
 function scss3b_shortcode_defaults() {

@@ -153,6 +153,9 @@ function remove_scss3b_style() {
 
 == Changelog ==
 
+= 0.0.9 =
+- target="_blank" is deprecated, replaced with javascript fallback
+
 = 0.0.8 =
 - minor code refactoring
 
@@ -196,6 +199,9 @@ function remove_scss3b_style() {
 created
 
 == Upgrade Notice ==
+
+= 0.0.9 =
+- target="_blank" is deprecated, replaced with javascript fallback
 
 = 0.0.8 =
 - minor code refactoring
