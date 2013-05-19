@@ -37,7 +37,7 @@ a.button-brown {
   margin: 0 20px 20px 0;
   padding: 10px 15px;
   text-align: center;
-  width: 130px;
+  width: auto;
   text-decoration:none
 }
 /* black text for these buttons */

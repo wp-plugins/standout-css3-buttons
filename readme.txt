@@ -153,6 +153,10 @@ function remove_scss3b_style() {
 
 == Changelog ==
 
+= 0.1.0 =
+- minor code refactoring
+- changed width of buttons to "auto"
+
 = 0.0.9 =
 - target="_blank" is deprecated, replaced with javascript fallback
 
@@ -199,6 +203,10 @@ function remove_scss3b_style() {
 created
 
 == Upgrade Notice ==
+
+= 0.1.0 =
+- minor code refactoring
+- changed width of buttons to "auto"
 
 = 0.0.9 =
 - target="_blank" is deprecated, replaced with javascript fallback
