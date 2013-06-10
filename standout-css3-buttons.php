@@ -2,14 +2,14 @@
 /*
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
-Description: Display CSS3 style buttons on your website using popular social media colors.
-Version: 0.1.0
+Description: Display CSS3 style buttons with gradient color styles on your website using popular social media colors.
+Version: 0.1.2
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 // plugin constants
-define('SCSS3B_VERSION', '0.1.0');
+define('SCSS3B_VERSION', '0.1.2');
 define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 define('SCSS3B_SLUG', 'standout-css3-buttons');
 define('SCSS3B_LOCAL', 'scss3b');
@@ -21,14 +21,21 @@ define('SCSS3B_DEFAULT_URL', '');
 define('SCSS3B_DEFAULT_NOFOLLOW', true);
 define('SCSS3B_DEFAULT_NEWWINDOW', false);
 define('SCSS3B_DEFAULT_SHOW', false);
+define('SCSS3B_DEFAULT_CUSTOM_COLOR', '');
 define('SCSS3B_AVAILABLE_STYLES', 'button-dribbble,button-facebook,button-googleplus,button-linkedin,button-pinterest,button-rss,button-tumblr,button-twitter,button-turquoise,button-emerald,button-somekindofblue,button-amethyst,button-bluegray,button-tangerine,button-fall,button-adobe,button-lightgray,button-dull,button-fancypurple,button-dullpurple,button-crispblue,button-braised,button-midnight,button-salmon,button-neongreen,button-brown');
 /* option array member names */
 define('SCSS3B_DEFAULT_ENABLED_NAME', 'enabled');
 define('SCSS3B_DEFAULT_STYLE_NAME', 'cssclass');
 define('SCSS3B_DEFAULT_URL_NAME', 'href');
 define('SCSS3B_DEFAULT_NOFOLLOW_NAME', 'nofollow');
-define('SCSS3B_DEFAULT_NEWWINDOW_NAME', 'opennewwindow');
 define('SCSS3B_DEFAULT_SHOW_NAME', 'show');
+define('SCSS3B_DEFAULT_NEWWINDOW_NAME', 'opennewwindow');
+define('SCSS3B_DEFAULT_CUSTOM_COLOR_NAME', 'customcolor');
+
+// oh no you don't
+if (!defined('ABSPATH')) {
+  wp_die(__('Do not access this file directly.', SCSS3B_LOCAL));
+}
 
 // localization to allow for translations
 // also, register the plugin CSS file for later inclusion
@@ -44,7 +51,7 @@ add_action('admin_init', 'scss3b_options_init');
 function scss3b_options_init() {
   register_setting('scss3b_options', SCSS3B_OPTION, 'scss3b_validation');
   register_scss3b_admin_style();
-	register_scss3b_admin_script();
+  register_scss3b_admin_script();
 }
 // validation function
 function scss3b_validation($input) {
@@ -52,9 +59,8 @@ function scss3b_validation($input) {
   $input[SCSS3B_DEFAULT_URL_NAME] = esc_url($input[SCSS3B_DEFAULT_URL_NAME]);
   // sanitize style
   $input[SCSS3B_DEFAULT_STYLE_NAME] = sanitize_html_class($input[SCSS3B_DEFAULT_STYLE_NAME]);
-  if (!$input[SCSS3B_DEFAULT_STYLE_NAME]) { // set to default
-    $input[SCSS3B_DEFAULT_STYLE_NAME] = SCSS3B_DEFAULT_STYLE;
-  }
+  // sanitize custom color field
+  $input[SCSS3B_DEFAULT_CUSTOM_COLOR_NAME] = sanitize_html_class($input[SCSS3B_DEFAULT_CUSTOM_COLOR_NAME]);
   return $input;
 }
 // add Settings sub-menu
@@ -94,6 +100,10 @@ function scss3b_page() {
           </select></td>
         </tr>
 	  <tr valign="top"><td colspan="2"><?php _e('Select the style you would like to use as the default.', SCSS3B_LOCAL); ?></td></tr>
+        <tr valign="top"><th scope="row"><strong><label title="<?php _e('Or enter your own custom CSS class name.', SCSS3B_LOCAL); ?>" for="scss3b[<?php echo SCSS3B_DEFAULT_CUSTOM_COLOR_NAME; ?>]"><?php _e('Or enter your own custom CSS class name.', SCSS3B_LOCAL); ?></label></strong></th>
+		<td><input type="text" id="scss3b[<?php echo SCSS3B_DEFAULT_CUSTOM_COLOR_NAME; ?>]" name="scss3b[<?php echo SCSS3B_DEFAULT_CUSTOM_COLOR_NAME; ?>]" value="<?php echo $options[SCSS3B_DEFAULT_CUSTOM_COLOR_NAME]; ?>" /></td>
+        </tr>
+	  <tr valign="top"><td colspan="2"><?php _e('Enter the CSS class name, if you want to use your own. You will need to supply the appropriate CSS.', SCSS3B_LOCAL); ?></td></tr>
         <tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter default URL to use for buttons, if you do not pass one to the plugin via shortcode or function.', SCSS3B_LOCAL); ?>" for="scss3b[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]"><?php _e('Default button URL', SCSS3B_LOCAL); ?></label></strong></th>
 		<td><input type="url" id="scss3b[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" name="scss3b[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" value="<?php echo $options[SCSS3B_DEFAULT_URL_NAME]; ?>" /></td>
         </tr>
@@ -152,7 +162,7 @@ function scss3button($atts, $content = null) {
   // plugin is enabled/disabled from settings page only
   $options = scss3b_getpluginoptions();
   $enabled = $options[SCSS3B_DEFAULT_ENABLED_NAME];
-
+  
   // ******************************
   // derive shortcode values from constants
   // ******************************
@@ -166,6 +176,8 @@ function scss3button($atts, $content = null) {
   $opennewwindow = $$temp_window;
   $temp_show = constant('SCSS3B_DEFAULT_SHOW_NAME');
   $show = $$temp_show;
+  $temp_custom_color = constant('SCSS3B_DEFAULT_CUSTOM_COLOR_NAME');
+  $customcolor = $$temp_custom_color;
 
   // ******************************
   // sanitize user input
@@ -178,7 +190,8 @@ function scss3button($atts, $content = null) {
   $nofollow = (bool)$nofollow;
   $opennewwindow = (bool)$opennewwindow;
   $show = (bool)$show;
-
+  $customcolor = sanitize_html_class($customcolor);
+  
   // ******************************
   // check for parameters, then settings, then defaults
   // ******************************
@@ -195,8 +208,8 @@ function scss3button($atts, $content = null) {
     }
     if ($cssclass === SCSS3B_DEFAULT_STYLE) {
       $cssclass = $options[SCSS3B_DEFAULT_STYLE_NAME];
-	if ($cssclass === false) { // no style on settings page
-	  $cssclass = SCSS3B_DEFAULT_STYLE;
+      if ($cssclass === false) { // no style on settings page
+        $cssclass = SCSS3B_DEFAULT_STYLE;
         if (!$cssclass) { // disable output because we don't know what css class to use
           $enabled = false;
         }
@@ -225,12 +238,17 @@ function scss3button($atts, $content = null) {
     if (!in_array($cssclass, $cssclasses)) {
       $cssclass = $options[SCSS3B_DEFAULT_STYLE_NAME];
       if ($cssclass === false) {
-	 $cssclass = SCSS3B_DEFAULT_STYLE;
+        $cssclass = SCSS3B_DEFAULT_STYLE;
       }
     }
+		// check for custom color
+		if ($customcolor != '') {
+			$cssclass = $customcolor;
+		}
     // enqueue CSS only on pages with shortcode
     scss3b_button_styles();
-    $output = '<a' . ($opennewwindow ? ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;" ' : ' ') . 'class="' . $cssclass . '" href="' . $url . '"' . ($nofollow ? ' rel="nofollow"' : '') . '>' . do_shortcode(wp_kses_post(force_balance_tags($content))) . '</a>';
+    $output = '<a' . ($opennewwindow ? ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;" ' : ' ') . 'class="' . $cssclass . '"';
+    $output .= ' href="' . $url . '"' . ($nofollow ? ' rel="nofollow"' : '') . '>' . do_shortcode(wp_kses_post(force_balance_tags($content))) . '</a>';
   } else { // plugin disabled
     $output = '<!-- ' . SCSS3B_PLUGIN_NAME . ': plugin is disabled. Either you did not pass a necessary setting to the plugin, or did not configure a default. Check Settings page. -->';
   }
@@ -341,7 +359,8 @@ function scss3b_getpluginoptions() {
       SCSS3B_DEFAULT_STYLE_NAME => SCSS3B_DEFAULT_STYLE, 
       SCSS3B_DEFAULT_URL_NAME => SCSS3B_DEFAULT_URL, 
       SCSS3B_DEFAULT_NOFOLLOW_NAME => SCSS3B_DEFAULT_NOFOLLOW, 
-      SCSS3B_DEFAULT_NEWWINDOW_NAME => SCSS3B_DEFAULT_NEWWINDOW
+      SCSS3B_DEFAULT_NEWWINDOW_NAME => SCSS3B_DEFAULT_NEWWINDOW, 
+      SCSS3B_DEFAULT_CUSTOM_COLOR_NAME => SCSS3B_DEFAULT_CUSTOM_COLOR
     ));
 }
 // function to return shortcode defaults
@@ -351,7 +370,8 @@ function scss3b_shortcode_defaults() {
     SCSS3B_DEFAULT_URL_NAME => SCSS3B_DEFAULT_URL, 
     SCSS3B_DEFAULT_NOFOLLOW_NAME => SCSS3B_DEFAULT_NOFOLLOW, 
     SCSS3B_DEFAULT_NEWWINDOW_NAME => SCSS3B_DEFAULT_NEWWINDOW, 
-    SCSS3B_DEFAULT_SHOW_NAME => SCSS3B_DEFAULT_SHOW
+    SCSS3B_DEFAULT_SHOW_NAME => SCSS3B_DEFAULT_SHOW, 
+    SCSS3B_DEFAULT_CUSTOM_COLOR_NAME => SCSS3B_DEFAULT_CUSTOM_COLOR
     );
 }
 ?>

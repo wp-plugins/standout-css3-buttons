@@ -8,7 +8,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Display CSS3 style buttons on your website using shortcodes or PHP function call.
+Display CSS3 style buttons with gradient color styles on your website using shortcodes or PHP function call.
 
 == Description ==
 
@@ -27,6 +27,14 @@ You can also call the plugin in your functions.php or in a plugin. Choose from s
 - Many different color styles to choose from
 - Links can be opened in new window if requested
 
+= Shortcode =
+
+To display on any post or page, use this shortcode:
+
+[standout-css3-button]Button text goes here[/standout-css3-button]
+
+Make sure you go to the plugin settings page after installing to set options.
+
 <strong>If you use and enjoy this plugin, please rate it and click the "Works" button below so others know that it works with the latest version of WordPress.</strong>
 
 == Installation ==
@@ -44,7 +52,9 @@ To remove this plugin, go to the 'Plugins' menu in WordPress, find the plugin in
 
 Use a shortcode to call the plugin from any page or post like this:
 
-`[standout-css3-button cssclass="button-dribbble" href="http://www.google.com/"]Click here[/standout-css3-button]`
+`[standout-css3-button cssclass="button-dribbble" href="http://www.google.com/"]
+Click here
+[/standout-css3-button]`
 
 This will output the following:
 
@@ -56,7 +66,8 @@ You may also include shortcodes within the shortcode.
 
 The shortcode can also be used in your PHP code (functions.php, or a plugin) using the <a href="http://codex.wordpress.org/Function_Reference/do_shortcode">do_shortcode</a> function, ex:
 
-`echo do_shortcode('[standout-css3-button cssclass="button-dribbble" href="http://www.google.com/"]Click here[/standout-css3-button]');`
+`echo do_shortcode('[standout-css3-button cssclass="button-dribbble" 
+href="http://www.google.com/"]Click here[/standout-css3-button]');`
 
 You can also call the plugin in your PHP code like this:
 
@@ -64,7 +75,9 @@ You can also call the plugin in your PHP code like this:
 function show_css3_button($content) {
   if (is_page('home')) { // we are on a page with slug 'home'
     if (function_exists('scss3button')) { // plugin is installed/active
-      $content .= scss3button(array('cssclass' => 'button-rss', 'href' => 'http://www.google.com/'), 'Click here');
+      $content .= scss3button(array('cssclass' => 'button-rss', 
+'href' => 'http://www.google.com/'), 
+'Click here');
     }
   }
   return $content;
@@ -153,6 +166,12 @@ function remove_scss3b_style() {
 
 == Changelog ==
 
+= 0.1.2 =
+some security hardening added
+
+= 0.1.1 =
+added textbox to enter your own css class name, which you must define in your own stylesheet
+
 = 0.1.0 =
 - minor code refactoring
 - changed width of buttons to "auto"
@@ -203,6 +222,12 @@ function remove_scss3b_style() {
 created
 
 == Upgrade Notice ==
+
+= 0.1.2 =
+some security hardening added
+
+= 0.1.1 =
+added textbox to enter your own css class name, which you must define in your own stylesheet
 
 = 0.1.0 =
 - minor code refactoring
