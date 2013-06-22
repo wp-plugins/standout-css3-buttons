@@ -3,13 +3,13 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons with gradient color styles on your website using popular social media colors.
-Version: 0.1.2
+Version: 0.1.3
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 // plugin constants
-define('SCSS3B_VERSION', '0.1.2');
+define('SCSS3B_VERSION', '0.1.3');
 define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 define('SCSS3B_SLUG', 'standout-css3-buttons');
 define('SCSS3B_LOCAL', 'scss3b');
@@ -123,25 +123,30 @@ function scss3b_page() {
     <table class="widefat">
       <thead>
         <tr>
-          <th>Argument</th>
-	    <th>Type</th>
-          <th>Default Value</th>
+          <th title="<?php _e('The name of the parameter', SCSS3B_LOCAL); ?>"><?php _e('Argument', SCSS3B_LOCAL); ?></th>
+	  <th title="<?php _e('Is this parameter required?', SCSS3B_LOCAL); ?>"><?php _e('Required?', SCSS3B_LOCAL); ?></th>
+          <th title="<?php _e('What data type this parameter accepts', SCSS3B_LOCAL); ?>"><?php _e('Type', SCSS3B_LOCAL); ?></th>
+          <th title="<?php _e('What, if any, is the default if no value is specified', SCSS3B_LOCAL); ?>"><?php _e('Default Value', SCSS3B_LOCAL); ?></th>
         </tr>
       </thead>
       <tbody>
-    <?php $plugin_defaults = scss3b_shortcode_defaults(); foreach($plugin_defaults as $key => $value) { ?>
+    <?php $plugin_defaults_keys = array_keys(scss3b_shortcode_defaults());
+					$plugin_defaults_values = array_values(scss3b_shortcode_defaults());
+					$scss3b_required = scss3b_required_parameters();
+					for($i=0; $i<count($plugin_defaults_keys);$i++) { ?>
         <tr>
-          <td><?php echo $key; ?></td>
-	    <td><?php echo gettype($value); ?></td>
-          <td> <?php 
-						if ($value === true) {
+          <td><?php echo $plugin_defaults_keys[$i]; ?></td>
+					<td><?php echo $scss3b_required[$i]; ?></td>
+          <td><?php echo gettype($plugin_defaults_values[$i]); ?></td>
+          <td><?php 
+						if ($plugin_defaults_values[$i] === true) {
 							echo 'true';
-						} elseif ($value === false) {
+						} elseif ($plugin_defaults_values[$i] === false) {
 							echo 'false';
-						} elseif ($value === '') {
+						} elseif ($plugin_defaults_values[$i] === '') {
 							echo '<em>(this value is blank by default)</em>';
 						} else {
-							echo $value;
+							echo $plugin_defaults_values[$i];
 						} ?></td>
         </tr>
     <?php } ?>
@@ -373,5 +378,16 @@ function scss3b_shortcode_defaults() {
     SCSS3B_DEFAULT_SHOW_NAME => SCSS3B_DEFAULT_SHOW, 
     SCSS3B_DEFAULT_CUSTOM_COLOR_NAME => SCSS3B_DEFAULT_CUSTOM_COLOR
     );
+}
+// function to return parameter status (required or not)
+function scss3b_required_parameters() {
+  return array(
+    'false',
+    'true',
+    'false',
+    'false',
+    'false',
+    'false',
+  );
 }
 ?>

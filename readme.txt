@@ -159,12 +159,22 @@ function remove_scss3b_style() {
   wp_deregister_style('standout_css3_button_style');
 }`
 
+= I don't see the plugin toolbar button(s). =
+
+This plugin adds one or more toolbar buttons to the HTML editor. You will not see them on the Visual editor.
+
+The label on the toolbar button is "CSS3 Button".
+
 == Screenshots ==
 
 1. Settings page
 2. All buttons
 
 == Changelog ==
+
+= 0.1.3 =
+- updated the plugin settings page list of parameters to indicate whether they are required or not
+- updated FAQ section of readme.txt
 
 = 0.1.2 =
 some security hardening added
@@ -222,6 +232,10 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.1.3 =
+- updated the plugin settings page list of parameters to indicate whether they are required or not
+- updated FAQ section of readme.txt
 
 = 0.1.2 =
 some security hardening added
