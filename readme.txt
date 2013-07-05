@@ -1,7 +1,7 @@
 === Standout CSS3 Buttons ===
 Tags: css3, button, gradient, link, rounded, CSS button
 Requires at least: 3.5
-Tested up to: 3.5.1
+Tested up to: 3.5.2
 Contributors: jp2112
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW
 Stable tag: trunk
@@ -172,6 +172,9 @@ The label on the toolbar button is "CSS3 Button".
 
 == Changelog ==
 
+= 0.1.4 =
+fixed uninstall routine, actually deletes options now
+
 = 0.1.3 =
 - updated the plugin settings page list of parameters to indicate whether they are required or not
 - updated FAQ section of readme.txt
@@ -232,6 +235,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.1.4 =
+fixed uninstall routine, actually deletes options now
 
 = 0.1.3 =
 - updated the plugin settings page list of parameters to indicate whether they are required or not

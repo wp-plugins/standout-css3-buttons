@@ -3,13 +3,13 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons with gradient color styles on your website using popular social media colors.
-Version: 0.1.3
+Version: 0.1.4
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 // plugin constants
-define('SCSS3B_VERSION', '0.1.3');
+define('SCSS3B_VERSION', '0.1.4');
 define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 define('SCSS3B_SLUG', 'standout-css3-buttons');
 define('SCSS3B_LOCAL', 'scss3b');
@@ -35,6 +35,12 @@ define('SCSS3B_DEFAULT_CUSTOM_COLOR_NAME', 'customcolor');
 // oh no you don't
 if (!defined('ABSPATH')) {
   wp_die(__('Do not access this file directly.', SCSS3B_LOCAL));
+}
+
+// delete option when plugin is uninstalled
+register_uninstall_hook(__FILE__, 'uninstall_scss3b_plugin');
+function uninstall_scss3b_plugin() {
+  delete_option(SCSS3B_OPTION);
 }
 
 // localization to allow for translations
