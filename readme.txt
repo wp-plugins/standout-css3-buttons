@@ -1,7 +1,7 @@
 === Standout CSS3 Buttons ===
 Tags: css3, button, gradient, link, rounded, CSS button
 Requires at least: 3.5
-Tested up to: 3.5.2
+Tested up to: 3.7.1
 Contributors: jp2112
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW
 Stable tag: trunk
@@ -22,16 +22,17 @@ You can also call the plugin in your functions.php or in a plugin. Choose from s
 
 - Create unlimited number of modern style buttons
 - Works with most browsers, but degrades nicely in older browsers
-- CSS3 compliant, no Javascript or other code is used to generate button
+- CSS3 compliant, no Javascript or other code is used to generate button (note that Javascript is used to open links in new windows if requested)
 - CSS only loads on pages with shortcode or function call
-- Many different color styles to choose from
-- Links can be opened in new window if requested
+- You can use shortcodes inside shortcodes, i.e. [standout-css3-button][my_shortcode][/standout-css3-button]
+- Many different color styles to choose from, but you can also create your own
+- Custom CSS automatically busts caches when you update it. Change it as often as you want, it will display changes in real-time!
 
 = Shortcode =
 
 To display on any post or page, use this shortcode:
 
-[standout-css3-button]Button text goes here[/standout-css3-button]
+[standout-css3-button href="http://www.yahoo.com/"]Button text goes here[/standout-css3-button]
 
 Make sure you go to the plugin settings page after installing to set options.
 
@@ -41,7 +42,7 @@ Make sure you go to the plugin settings page after installing to set options.
 
 1. Upload the plugin through the WordPress interface.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Go to Settings &raquo; Standout CSS3 Buttons and configure the plugin.
+3. Go to Settings &raquo; 'Standout CSS3 Buttons' and configure the plugin.
 4. Insert shortcode on posts or pages, or call the plugin from your PHP code.
 
 To remove this plugin, go to the 'Plugins' menu in WordPress, find the plugin in the listing and click "Deactivate". After the page refreshes, find the plugin again in the listing and click "Delete".
@@ -69,7 +70,7 @@ The shortcode can also be used in your PHP code (functions.php, or a plugin) usi
 `echo do_shortcode('[standout-css3-button cssclass="button-dribbble" 
 href="http://www.google.com/"]Click here[/standout-css3-button]');`
 
-You can also call the plugin in your PHP code like this:
+You can also call the plugin's function in your PHP code like this:
 
 `add_action('the_content', 'show_css3_button');
 function show_css3_button($content) {
@@ -85,9 +86,11 @@ function show_css3_button($content) {
 
 This will add a button (with `button-rss` color style) at the end of your content, if you are on a page with a slug named "home". Always wrap plugin function calls with a `function_exists` check so that your site doesn't go down if the plugin isn't active.
 
+In short, 'standout-css3-button' is the shortcode and 'scss3button' is the PHP function name.
+
 = What are the plugin defaults? =
 
-The plugin arguments and default values may change over time. To get the latest list of arguments and defaults, look at the settings page after installing the plugin.
+The plugin arguments and default values may change over time. To get the latest list of arguments and defaults, look at the settings page after installing the plugin. That is where the latest list will always be located. You will see what parameters you can specify and which ones are required.
 
 = What styles are available? =
 
@@ -120,7 +123,21 @@ The following styles are available.
 <li>button-brown</li>
 </ul>
 
-See http://www.jimmyscode.com/wordpress/standout-css3-buttons/ for a live demo of each style.
+See the dropdown list on the plugin settings menu for the most updated list. Visit http://www.jimmyscode.com/wordpress/standout-css3-buttons/ for a live demo of each style.
+
+= How do I create my own color schemes? =
+
+1. When you are entering the shortcode or calling the plugin function from PHP, instead of using one of the built-in color names ("button-emerald", "button-facebook" etc), use the class name you want to use. Ex: "bluegreen"
+
+Do not add the "button-" prefix. This will be added automatically by the plugin. The resulting class name will be <strong>button-<em>whatever you typed</em></strong>.
+
+In this example, the custom CSS class will be `button-bluegreen`.
+
+2. Go to the plugin settings page. There is a textarea there where you enter the CSS you want to use.
+
+If you need help writing the CSS, look at the existing CSS file the plugin uses (filename: standout-css3-buttons.css in the /css/ subfolder) as a model for what CSS you need. Then just change the color values accordingly and paste it into the textarea. If you want to do something above and beyond what is already in the CSS, please search the web to find help. <strong>Please don't use the plugin support forum to ask for CSS help unless there is an issue with the existing CSS.</strong>
+
+The custom CSS stylesheet will be properly enqueued on pages where custom CSS class names are used.
 
 = I added the shortcode to a page but I don't see anything. =
 
@@ -128,11 +145,15 @@ Clear your browser cache and also clear your cache plugin (if any). If you still
 
 `<!-- Standout CSS3 Buttons: plugin is disabled. Check Settings page. -->`
 
-This means you didn't pass a necessary setting to the plugin. For color buttons, you must specify the URL. You should also check that the "enabled" checkbox on the plugin settings page is checked.
+This means you didn't pass a necessary setting to the plugin. For example, you must specify the URL either in the shortcode or on the plugin settings page. You should also check that the "enabled" checkbox on the plugin settings page is checked.
+
+= I don't see rounded corners. =
+
+Make sure you aren't using `rounded="0"` in your shortcode. If you are not, make sure your browser is up to date and check if it supports the `border-radius` CSS attribute. You may have to view the page in another browser. You may also need to refresh your browser and clear your caching plugin. Also, check the plugin settings page to make sure the "rounded corner CSS" checkbox is checked.
 
 = I cleared my browser cache and my caching plugin but the buttons still look wrong. =
 
-Are you using a plugin that minifies CSS? If so, try excluding the plugin CSS file from minification.
+Are you using a plugin that minifies or combines CSS files at runtime? If so, try excluding the plugin CSS file from minification.
 
 = I cleared my cache and still don't see what I want. =
 
@@ -171,6 +192,14 @@ The label on the toolbar button is "CSS3 Button".
 2. All buttons
 
 == Changelog ==
+
+= 0.1.5 =
+- editor button now outputs required parameters when clicking it
+- custom CSS textbox to enter your own CSS styling for custom classes
+- code refactored for efficiency
+- CSS files automatically bust caches
+- minified CSS somewhat
+- updated FAQ/readme
 
 = 0.1.4 =
 fixed uninstall routine, actually deletes options now
@@ -235,6 +264,14 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.1.5 =
+- editor button now outputs required parameters when clicking it
+- custom CSS textbox to enter your own CSS styling for custom classes
+- code refactored for efficiency
+- CSS files automatically bust caches
+- minified CSS somewhat
+- updated FAQ/readme
 
 = 0.1.4 =
 fixed uninstall routine, actually deletes options now
