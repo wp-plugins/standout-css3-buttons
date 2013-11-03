@@ -193,6 +193,10 @@ The label on the toolbar button is "CSS3 Button".
 
 == Changelog ==
 
+= 0.1.6 =
+- refactored admin CSS
+- added helpful links on plugin settings page and plugins page
+
 = 0.1.5 =
 - editor button now outputs required parameters when clicking it
 - custom CSS textbox to enter your own CSS styling for custom classes
@@ -264,6 +268,10 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.1.6 =
+- refactored admin CSS
+- added helpful links on plugin settings page and plugins page
 
 = 0.1.5 =
 - editor button now outputs required parameters when clicking it

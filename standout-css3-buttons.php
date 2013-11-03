@@ -3,13 +3,13 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons with gradient color styles on your website using popular social media colors.
-Version: 0.1.5
+Version: 0.1.6
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 // plugin constants
-define('SCSS3B_VERSION', '0.1.5');
+define('SCSS3B_VERSION', '0.1.6');
 define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 define('SCSS3B_SLUG', 'standout-css3-buttons');
 define('SCSS3B_LOCAL', 'scss3b');
@@ -161,6 +161,9 @@ function scss3b_page() {
     <?php screen_icon('edit-comments'); ?>
     <h3>Support</h3>
     	<div class="support">
+			<?php echo '<a href="http://wordpress.org/extend/plugins/' . SCSS3B_SLUG . '/">' . __('Documentation', SCSS3B_LOCAL) . '</a> | ';
+        echo '<a href="http://wordpress.org/plugins/' . SCSS3B_SLUG . '/faq/">' . __('FAQ', SCSS3B_LOCAL) . '</a><br />';
+			?>
     	If you like this plugin, please <a href="http://wordpress.org/support/view/plugin-reviews/<?php echo SCSS3B_SLUG; ?>/">rate it on WordPress.org</a> and click the "Works" button so others know it will work for your WordPress version. For support please visit the <a href="http://wordpress.org/support/plugin/<?php echo SCSS3B_SLUG; ?>">forums</a>. <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate with PayPal" title="Donate with PayPal" width="92" height="26" /></a>
     	</div>
   </div>
@@ -308,6 +311,21 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'scss3b_plugin_se
 function scss3b_plugin_settings_link($links) {
   $settings_link = '<a href="options-general.php?page=' . SCSS3B_SLUG . '">' . __('Settings', SCSS3B_LOCAL) . '</a>';
   array_unshift($links, $settings_link);
+  return $links;
+}
+// http://wpengineer.com/1295/meta-links-for-wordpress-plugins/
+add_filter('plugin_row_meta', 'meta_links', 10, 2);
+function meta_links($links, $file) {
+  $plugin = plugin_basename(__FILE__);
+  // create link
+  if ($file == $plugin) {
+    $links = array_merge($links,
+      array(
+        '<a href="http://wordpress.org/support/plugin/' . SCSS3B_SLUG . '">' . __('Support', SCSS3B_LOCAL) . '</a>',
+        '<a href="http://wordpress.org/extend/plugins/' . SCSS3B_SLUG . '/">' . __('Documentation', SCSS3B_LOCAL) . '</a>',
+        '<a href="http://wordpress.org/plugins/' . SCSS3B_SLUG . '/faq/">' . __('FAQ', SCSS3B_LOCAL) . '</a>'
+    ));
+  }
   return $links;
 }
 // enqueue/register the plugin CSS file
