@@ -3,13 +3,13 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons with gradient color styles on your website using popular social media colors.
-Version: 0.1.6
+Version: 0.1.7
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 // plugin constants
-define('SCSS3B_VERSION', '0.1.6');
+define('SCSS3B_VERSION', '0.1.7');
 define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 define('SCSS3B_SLUG', 'standout-css3-buttons');
 define('SCSS3B_LOCAL', 'scss3b');
@@ -22,7 +22,7 @@ define('SCSS3B_DEFAULT_CUSTOM_CSS', '');
 define('SCSS3B_DEFAULT_NOFOLLOW', true);
 define('SCSS3B_DEFAULT_SHOW', false);
 define('SCSS3B_DEFAULT_NEWWINDOW', false);
-define('SCSS3B_AVAILABLE_STYLES', 'button-dribbble,button-facebook,button-googleplus,button-linkedin,button-pinterest,button-rss,button-tumblr,button-twitter,button-turquoise,button-emerald,button-somekindofblue,button-amethyst,button-bluegray,button-tangerine,button-fall,button-adobe,button-lightgray,button-dull,button-fancypurple,button-dullpurple,button-crispblue,button-braised,button-midnight,button-salmon,button-neongreen,button-brown');
+define('SCSS3B_AVAILABLE_STYLES', 'button-dribbble,button-facebook,button-googleplus,button-linkedin,button-pinterest,button-rss,button-tumblr,button-twitter,button-turquoise,button-emerald,button-somekindofblue,button-amethyst,button-bluegray,button-tangerine,button-fall,button-adobe,button-lightgray,button-dull,button-fancypurple,button-dullpurple,button-crispblue,button-braised,button-midnight,button-salmon,button-neongreen,button-brown,button-sourgreen');
 /* option array member names */
 define('SCSS3B_DEFAULT_ENABLED_NAME', 'enabled');
 define('SCSS3B_DEFAULT_STYLE_NAME', 'cssclass');
@@ -84,7 +84,6 @@ function scss3b_page() {
   }
   ?>
   <div class="wrap">
-    <?php screen_icon(); ?>
     <h2><?php echo SCSS3B_PLUGIN_NAME; ?></h2>
     <form method="post" action="options.php">
       <div>You are running plugin version <strong><?php echo SCSS3B_VERSION; ?></strong>.</div>
@@ -158,7 +157,6 @@ function scss3b_page() {
     <?php } ?>
     </tbody>
     </table>
-    <?php screen_icon('edit-comments'); ?>
     <h3>Support</h3>
     	<div class="support">
 			<?php echo '<a href="http://wordpress.org/extend/plugins/' . SCSS3B_SLUG . '/">' . __('Documentation', SCSS3B_LOCAL) . '</a> | ';
@@ -347,7 +345,7 @@ function register_scss3b_admin_style() {
   wp_register_style('scss3b_admin_style',
     plugins_url(plugin_basename(dirname(__FILE__)) . '/css/admin.css'),
     array(),
-    WPPRS_VERSION,
+    SCSS3B_VERSION . "_" . date('njYHis', filemtime(dirname(__FILE__) . '/css/admin.css')),
     'all');
 }
 // enqueue/register the custom CSS file
@@ -370,7 +368,7 @@ function register_scss3b_admin_script() {
   wp_register_script('scss3b_add_editor_button',
     plugins_url(plugin_basename(dirname(__FILE__)) . '/js/editor_button.js'), 
     array('quicktags'), 
-    SCSS3B_VERSION, 
+    SCSS3B_VERSION . "_" . date('njYHis', filemtime(dirname(__FILE__) . '/js/editor_button.js')),
     true);
 }
 // when plugin is activated, create options array and populate with defaults

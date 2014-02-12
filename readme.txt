@@ -1,7 +1,7 @@
 === Standout CSS3 Buttons ===
 Tags: css3, button, gradient, link, rounded, CSS button
 Requires at least: 3.5
-Tested up to: 3.7.1
+Tested up to: 3.8.1
 Contributors: jp2112
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW
 Stable tag: trunk
@@ -121,6 +121,7 @@ The following styles are available.
 <li>button-braised</li>
 <li>button-midnight</li>
 <li>button-brown</li>
+<li>button-sourgreen</li>
 </ul>
 
 See the dropdown list on the plugin settings menu for the most updated list. Visit http://www.jimmyscode.com/wordpress/standout-css3-buttons/ for a live demo of each style.
@@ -192,6 +193,12 @@ The label on the toolbar button is "CSS3 Button".
 2. All buttons
 
 == Changelog ==
+
+= 0.1.7 =
+- All CSS and JS automatically busts cache
+- added color "sourgreen"
+- removed screen_icon() (deprecated)
+- compatible with WP 3.8.1
 
 = 0.1.6 =
 - refactored admin CSS
@@ -268,6 +275,12 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.1.7 =
+- All CSS and JS automatically busts cache, 
+- added color "sourgreen", 
+- removed screen_icon() (deprecated), 
+- compatible with WP 3.8.1
 
 = 0.1.6 =
 - refactored admin CSS
