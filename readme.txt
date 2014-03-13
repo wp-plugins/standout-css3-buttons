@@ -194,6 +194,9 @@ The label on the toolbar button is "CSS3 Button".
 
 == Changelog ==
 
+= 0.1.8 =
+- added submit button to top of plugin settings form
+
 = 0.1.7 =
 - All CSS and JS automatically busts cache
 - added color "sourgreen"
@@ -275,6 +278,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.1.8 =
+- added submit button to top of plugin settings form
 
 = 0.1.7 =
 - All CSS and JS automatically busts cache, 
