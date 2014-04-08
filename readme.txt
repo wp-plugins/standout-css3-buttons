@@ -12,17 +12,15 @@ Display CSS3 style buttons with gradient color styles on your website using shor
 
 == Description ==
 
-<strong>Update: As of version 0.0.2, there is a new way to call the plugin from PHP. If you are currently calling the plugin from your functions.php or another plugin, please read the <a href="http://wordpress.org/extend/plugins/standout-css3-buttons/faq/">FAQ</a>.
-
 Based on <a href="http://www.briangardner.com/social-media-buttons/">this blog post from Brian Gardner</a>, display cool CSS3 style gradient buttons on your site using shortcodes.
 
-You can also call the plugin in your functions.php or in a plugin. Choose from several different color styles, partially inspired by social media.
+You can also call the plugin in your functions.php or in a plugin. Choose from several different color styles, partially inspired by social media, or create your own.
 
 = Features =
 
 - Create unlimited number of modern style buttons
 - Works with most browsers, but degrades nicely in older browsers
-- CSS3 compliant, no Javascript or other code is used to generate button (note that Javascript is used to open links in new windows if requested)
+- CSS3 compliant, no Javascript or other code is used to generate button (note that Javascript is used to open links in new windows)
 - CSS only loads on pages with shortcode or function call
 - You can use shortcodes inside shortcodes, i.e. [standout-css3-button][my_shortcode][/standout-css3-button]
 - Many different color styles to choose from, but you can also create your own
@@ -59,15 +57,13 @@ Click here
 
 This will output the following:
 
-`<a class="button-dribbble" href="http://www.google.com/" rel="nofollow">Click here</a>`
+`<a class="scss3b-button-dribbble" href="http://www.google.com/" rel="nofollow">Click here</a>`
 
-CSS styling from the included .css file will be applied to this link.
-
-You may also include shortcodes within the shortcode.
+CSS styling from the included .css file will be applied to this link. You may also include shortcodes within the shortcode.
 
 The shortcode can also be used in your PHP code (functions.php, or a plugin) using the <a href="http://codex.wordpress.org/Function_Reference/do_shortcode">do_shortcode</a> function, ex:
 
-`echo do_shortcode('[standout-css3-button cssclass="button-dribbble" 
+`echo do_shortcode('[standout-css3-button cssclass="scss3b-button-dribbble" 
 href="http://www.google.com/"]Click here[/standout-css3-button]');`
 
 You can also call the plugin's function in your PHP code like this:
@@ -76,7 +72,7 @@ You can also call the plugin's function in your PHP code like this:
 function show_css3_button($content) {
   if (is_page('home')) { // we are on a page with slug 'home'
     if (function_exists('scss3button')) { // plugin is installed/active
-      $content .= scss3button(array('cssclass' => 'button-rss', 
+      $content .= scss3button(array('cssclass' => 'scss3b-button-rss', 
 'href' => 'http://www.google.com/'), 
 'Click here');
     }
@@ -84,7 +80,7 @@ function show_css3_button($content) {
   return $content;
 }`
 
-This will add a button (with `button-rss` color style) at the end of your content, if you are on a page with a slug named "home". Always wrap plugin function calls with a `function_exists` check so that your site doesn't go down if the plugin isn't active.
+This will add a button (with `scss3b-button-rss` color style) at the end of your content, if you are on a page with a slug named "home". Always wrap plugin function calls with a `function_exists` check so that your site doesn't go down if the plugin isn't active.
 
 In short, 'standout-css3-button' is the shortcode and 'scss3button' is the PHP function name.
 
@@ -97,48 +93,50 @@ The plugin arguments and default values may change over time. To get the latest 
 The following styles are available.
 
 <ul>
-<li>button-dribbble (<strong>default</strong>)</li>
-<li>button-facebook</li>
-<li>button-googleplus</li>
-<li>button-linkedin</li>
-<li>button-pinterest</li>
-<li>button-rss</li>
-<li>button-tumblr</li>
-<li>button-twitter</li>
-<li>button-turquoise</li>
-<li>button-emerald</li>
-<li>button-somekindofblue</li>
-<li>button-amethyst</li>
-<li>button-bluegray</li>
-<li>button-tangerine</li>
-<li>button-fall</li>
-<li>button-adobe</li>
-<li>button-lightgray</li>
-<li>button-dull</li>
-<li>button-fancypurple</li>
-<li>button-dullpurple</li>
-<li>button-crispblue</li>
-<li>button-braised</li>
-<li>button-midnight</li>
-<li>button-brown</li>
-<li>button-sourgreen</li>
+<li>scss3b-button-dribbble (<strong>default</strong>)</li>
+<li>scss3b-button-facebook</li>
+<li>scss3b-button-googleplus</li>
+<li>scss3b-button-linkedin</li>
+<li>scss3b-button-pinterest</li>
+<li>scss3b-button-rss</li>
+<li>scss3b-button-tumblr</li>
+<li>scss3b-button-twitter</li>
+<li>scss3b-button-turquoise</li>
+<li>scss3b-button-emerald</li>
+<li>scss3b-button-somekindofblue</li>
+<li>scss3b-button-amethyst</li>
+<li>scss3b-button-bluegray</li>
+<li>scss3b-button-tangerine</li>
+<li>scss3b-button-fall</li>
+<li>scss3b-button-adobe</li>
+<li>scss3b-button-lightgray</li>
+<li>scss3b-button-dull</li>
+<li>scss3b-button-fancypurple</li>
+<li>scss3b-button-dullpurple</li>
+<li>scss3b-button-crispblue</li>
+<li>scss3b-button-braised</li>
+<li>scss3b-button-midnight</li>
+<li>scss3b-button-brown</li>
+<li>scss3b-button-sourgreen</li>
 </ul>
 
 See the dropdown list on the plugin settings menu for the most updated list. Visit http://www.jimmyscode.com/wordpress/standout-css3-buttons/ for a live demo of each style.
 
 = How do I create my own color schemes? =
 
-1. When you are entering the shortcode or calling the plugin function from PHP, instead of using one of the built-in color names ("button-emerald", "button-facebook" etc), use the class name you want to use. Ex: "bluegreen"
+1. When you are entering the shortcode or calling the plugin function from PHP, instead of using one of the built-in color names ("emerald", "facebook" etc), use the class name you want to use. Ex: "bluegreen"
 
-Do not add the "button-" prefix. This will be added automatically by the plugin. The resulting class name will be <strong>button-<em>whatever you typed</em></strong>.
+Do not add the "scss3b-button-" prefix. This will be added automatically by the plugin. The resulting class name will be <strong>scss3b-button-<em>whatever you typed</em></strong>.
 
-In this example, the custom CSS class will be `button-bluegreen`.
+In this example, the custom CSS class will be `scss3b-button-bluegreen`.
 
 2. Go to the plugin settings page. There is a textarea there where you enter the CSS you want to use.
 
 If you need help writing the CSS, look at the existing CSS file the plugin uses (filename: standout-css3-buttons.css in the /css/ subfolder) as a model for what CSS you need. Then just change the color values accordingly and paste it into the textarea. If you want to do something above and beyond what is already in the CSS, please search the web to find help. <strong>Please don't use the plugin support forum to ask for CSS help unless there is an issue with the existing CSS.</strong>
 
-The custom CSS stylesheet will be properly enqueued on pages where custom CSS class names are used.
+The custom CSS stylesheet will be enqueued on pages where custom CSS class names are used.
+
+<strong>Note: you must include the FULL class name in the custom CSS textarea (ex: <em>.scss3b-button-mycustomcolor { font-style:verdana }</em>). However, when you actually call the class in your shortcode you only use the color name you created in step #1 above (ex: <em>[standout-css3-button cssclass="mycustomcolor" href="http://www.google.com/"]Click here[/standout-css3-button]</em>).</strong>
 
 = I added the shortcode to a page but I don't see anything. =
 
@@ -193,6 +191,13 @@ The label on the toolbar button is "CSS3 Button".
 2. All buttons
 
 == Changelog ==
+
+= 0.1.9 =
+- *** PLEASE BACKUP YOUR CUSTOM CSS BEFORE UPGRADING, JUST IN CASE ***
+- added 'scss3b-' prefix to CSS classes, you must update your custom css
+- custom CSS is preserved across updates (I hope)
+- minor bug with parameter table on plugin settings page
+- minor plugin settings page update
 
 = 0.1.8 =
 - added submit button to top of plugin settings form
@@ -278,6 +283,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.1.9 =
+- *** PLEASE BACKUP YOUR CUSTOM CSS BEFORE UPGRADING, JUST IN CASE ***, added 'scss3b-' prefix to CSS classes, you must update your custom css, custom CSS is preserved across updates (I hope), minor bug with parameter table on plugin settings page, minor plugin settings page update
 
 = 0.1.8 =
 - added submit button to top of plugin settings form
