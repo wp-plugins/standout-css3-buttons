@@ -194,6 +194,9 @@ The label on the toolbar button is "CSS3 Button".
 
 == Changelog ==
 
+= 0.2.1 =
+- OK, I am going to stop playing with the plugin now. Version check rolled back (again)
+
 = 0.2.0 =
 - prepare strings for internationalization
 - plugin now requires WP 3.5 and PHP 5.0 and above
@@ -290,6 +293,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.2.1 =
+- OK, I am going to stop playing with the plugin now. Version check rolled back (again)
 
 = 0.2.0 =
 - prepare strings for internationalization, plugin now requires WP 3.5 and PHP 5.0 and above, minor code optimization

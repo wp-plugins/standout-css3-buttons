@@ -3,36 +3,15 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons with gradient color styles on your website using popular social media colors.
-Version: 0.2.0
+Version: 0.2.1
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 
 define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
-
-// requirements: PHP 5.0 and above, WordPress 3.5 and above
-// http://10up.com/blog/wordpress-plug-in-self-deactivation/
-if ((version_compare(phpversion(), '5.0', '<')) || (version_compare(get_bloginfo('version'), '3.5', '<'))) {
-	global $pagenow;
-	if (is_admin() && ($pagenow == 'plugins.php')) { // we are on plugins page
-		add_action('admin_init', 'scss3b_plugin_deactivate');
-		add_action('admin_notices', 'scss3b_plugin_deactivation_notice');
-		
-		function scss3b_plugin_deactivate() {
-			deactivate_plugins(plugin_basename(__FILE__));
-		}
-		
-		function scss3b_plugin_deactivation_notice() {
-			echo '<div class="error"><p><strong>' . SCSS3B_PLUGIN_NAME . '</strong> requires PHP 5.0 and WordPress 3.5 at minimum; the plugin has been <strong>deactivated</strong>.</p></div>';
-			if (isset($_GET['activate'])) {
-				unset( $_GET['activate'] );
-			}
-		}
-	}
-} else {
 	// plugin constants
-	define('SCSS3B_VERSION', '0.2.0');
+	define('SCSS3B_VERSION', '0.2.1');
 	define('SCSS3B_SLUG', 'standout-css3-buttons');
 	define('SCSS3B_LOCAL', 'scss3b');
 	define('SCSS3B_OPTION', 'scss3b');
@@ -477,5 +456,4 @@ if ((version_compare(phpversion(), '5.0', '<')) || (version_compare(get_bloginfo
 			false
 		);
 	}
-}
 ?>
