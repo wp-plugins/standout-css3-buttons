@@ -16,6 +16,8 @@ Based on <a href="http://www.briangardner.com/social-media-buttons/">this blog p
 
 You can also call the plugin in your functions.php or in a plugin. Choose from several different color styles, partially inspired by social media, or create your own.
 
+Requires WP 3.5 and PHP 5.0 and above
+
 = Features =
 
 - Create unlimited number of modern style buttons
@@ -187,10 +189,15 @@ The label on the toolbar button is "CSS3 Button".
 
 == Screenshots ==
 
-1. Settings page
+1. Plugin settings page
 2. All buttons
 
 == Changelog ==
+
+= 0.2.0 =
+- prepare strings for internationalization
+- plugin now requires WP 3.5 and PHP 5.0 and above
+- minor code optimization
 
 = 0.1.9 =
 - *** PLEASE BACKUP YOUR CUSTOM CSS BEFORE UPGRADING, JUST IN CASE ***
@@ -283,6 +290,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.2.0 =
+- prepare strings for internationalization, plugin now requires WP 3.5 and PHP 5.0 and above, minor code optimization
 
 = 0.1.9 =
 - *** PLEASE BACKUP YOUR CUSTOM CSS BEFORE UPGRADING, JUST IN CASE ***, added 'scss3b-' prefix to CSS classes, you must update your custom css, custom CSS is preserved across updates (I hope), minor bug with parameter table on plugin settings page, minor plugin settings page update
