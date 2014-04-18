@@ -1,7 +1,7 @@
 === Standout CSS3 Buttons ===
 Tags: css3, button, gradient, link, rounded, CSS button
 Requires at least: 3.5
-Tested up to: 3.8.1
+Tested up to: 3.9
 Contributors: jp2112
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW
 Stable tag: trunk
@@ -15,8 +15,6 @@ Display CSS3 style buttons with gradient color styles on your website using shor
 Based on <a href="http://www.briangardner.com/social-media-buttons/">this blog post from Brian Gardner</a>, display cool CSS3 style gradient buttons on your site using shortcodes.
 
 You can also call the plugin in your functions.php or in a plugin. Choose from several different color styles, partially inspired by social media, or create your own.
-
-Requires WP 3.5 and PHP 5.0 and above
 
 = Features =
 
@@ -194,6 +192,10 @@ The label on the toolbar button is "CSS3 Button".
 
 == Changelog ==
 
+= 0.2.2 =
+- some minor code optimizations
+- verified compatibility with 3.9
+
 = 0.2.1 =
 - OK, I am going to stop playing with the plugin now. Version check rolled back (again)
 
@@ -293,6 +295,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.2.2 =
+- some minor code optimizations, verified compatibility with 3.9
 
 = 0.2.1 =
 - OK, I am going to stop playing with the plugin now. Version check rolled back (again)
