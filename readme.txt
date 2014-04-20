@@ -192,6 +192,9 @@ The label on the toolbar button is "CSS3 Button".
 
 == Changelog ==
 
+= 0.2.3 =
+- fix for wp_kses
+
 = 0.2.2 =
 - some minor code optimizations
 - verified compatibility with 3.9
@@ -295,6 +298,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.2.3 =
+- fix for wp_kses
 
 = 0.2.2 =
 - some minor code optimizations, verified compatibility with 3.9
