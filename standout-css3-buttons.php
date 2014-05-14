@@ -3,15 +3,15 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons with gradient color styles on your website using popular social media colors.
-Version: 0.2.4
+Version: 0.2.5
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
 
-define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 	// plugin constants
-	define('SCSS3B_VERSION', '0.2.4');
+	define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
+	define('SCSS3B_VERSION', '0.2.5');
 	define('SCSS3B_SLUG', 'standout-css3-buttons');
 	define('SCSS3B_LOCAL', 'scss3b');
 	define('SCSS3B_OPTION', 'scss3b');
@@ -38,28 +38,22 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 
 	// oh no you don't
 	if (!defined('ABSPATH')) {
-		wp_die(__('Do not access this file directly.', SCSS3B_LOCAL));
-	}
-
-	// delete option when plugin is uninstalled
-	register_uninstall_hook(__FILE__, 'uninstall_scss3b_plugin');
-	function uninstall_scss3b_plugin() {
-		delete_option(SCSS3B_OPTION);
+		wp_die(__('Do not access this file directly.', scss3b_get_local()));
 	}
 
 	// localization to allow for translations
 	// also, register the plugin CSS file for later inclusion
 	add_action('init', 'scss3b_translation_file');
 	function scss3b_translation_file() {
-		$plugin_path = plugin_basename(dirname(__FILE__) . '/translations');
-		load_plugin_textdomain(SCSS3B_LOCAL, '', $plugin_path);
+		$plugin_path = scss3b_get_path() . '/translations';
+		load_plugin_textdomain(scss3b_get_local(), '', $plugin_path);
 		register_scss3b_style();
 	}
 	// tell WP that we are going to use new options
 	// also, register the admin CSS file for later inclusion
 	add_action('admin_init', 'scss3b_options_init');
 	function scss3b_options_init() {
-		register_setting(SCSS3B_OPTIONS_NAME, SCSS3B_OPTION, 'scss3b_validation');
+		register_setting(SCSS3B_OPTIONS_NAME, scss3b_get_option(), 'scss3b_validation');
 		register_scss3b_admin_style();
 		register_scss3b_admin_script();
 	}
@@ -77,7 +71,7 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 	// add Settings sub-menu
 	add_action('admin_menu', 'scss3b_plugin_menu');
 	function scss3b_plugin_menu() {
-		add_options_page(SCSS3B_PLUGIN_NAME, SCSS3B_PLUGIN_NAME, SCSS3B_PERMISSIONS_LEVEL, SCSS3B_SLUG, 'scss3b_page');
+		add_options_page(SCSS3B_PLUGIN_NAME, SCSS3B_PLUGIN_NAME, SCSS3B_PERMISSIONS_LEVEL, scss3b_get_slug(), 'scss3b_page');
 	}
 	// plugin settings page
 	// http://planetozh.com/blog/2009/05/handling-plugins-options-in-wordpress-28-with-register_setting/
@@ -85,25 +79,34 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 	function scss3b_page() {
 		// check perms
 		if (!current_user_can(SCSS3B_PERMISSIONS_LEVEL)) {
-			wp_die(__('You do not have sufficient permission to access this page', SCSS3B_LOCAL));
+			wp_die(__('You do not have sufficient permission to access this page', scss3b_get_local()));
 		}
 		?>
 		<div class="wrap">
-			<h2 id="plugintitle"><img src="<?php echo plugins_url(plugin_basename(dirname(__FILE__) . '/images/colors.png')) ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php echo SCSS3B_PLUGIN_NAME; ?> by <a href="http://www.jimmyscode.com/">Jimmy Pe&ntilde;a</a></h2>
+			<h2 id="plugintitle"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/colors.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php echo SCSS3B_PLUGIN_NAME; ?> by <a href="http://www.jimmyscode.com/">Jimmy Pe&ntilde;a</a></h2>
 			<div>You are running plugin version <strong><?php echo SCSS3B_VERSION; ?></strong>.</div>
+			
+			<?php /* http://code.tutsplus.com/tutorials/the-complete-guide-to-the-wordpress-settings-api-part-5-tabbed-navigation-for-your-settings-page--wp-24971 */ ?>
+			<?php $active_tab = (isset($_GET['tab']) ? $_GET['tab'] : 'settings'); ?>
+			<h2 class="nav-tab-wrapper">
+			  <a href="?page=<?php echo scss3b_get_slug(); ?>&tab=settings" class="nav-tab <?php echo $active_tab == 'settings' ? 'nav-tab-active' : ''; ?>"><?php _e('Settings', scss3b_get_local()); ?></a>
+				<a href="?page=<?php echo scss3b_get_slug(); ?>&tab=parameters" class="nav-tab <?php echo $active_tab == 'parameters' ? 'nav-tab-active' : ''; ?>"><?php _e('Parameters', scss3b_get_local()); ?></a>
+				<a href="?page=<?php echo scss3b_get_slug(); ?>&tab=support" class="nav-tab <?php echo $active_tab == 'support' ? 'nav-tab-active' : ''; ?>"><?php _e('Support', scss3b_get_local()); ?></a>
+			</h2>
+			
 			<form method="post" action="options.php">
 			<?php settings_fields(SCSS3B_OPTIONS_NAME); ?>
 			<?php $options = scss3b_getpluginoptions(); ?>
-			<?php update_option(SCSS3B_OPTION, $options); ?>
-			<h3 id="settings"><img src="<?php echo plugins_url(plugin_basename(dirname(__FILE__) . '/images/settings.png')) ?>" title="" alt="" height="61" width="64" align="absmiddle" />Plugin Settings</h3>
-				<?php submit_button(); ?>
+			<?php update_option(scss3b_get_option(), $options); ?>
+			<?php if ($active_tab == 'settings') { ?>
+			<h3 id="settings"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/settings.png'); ?>" title="" alt="" height="61" width="64" align="absmiddle" /> <?php _e('Plugin Settings', scss3b_get_local()); ?></h3>
 				<table class="form-table" id="theme-options-wrap">
-					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Is plugin enabled? Uncheck this to turn it off temporarily.', SCSS3B_LOCAL); ?>" for="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]"><?php _e('Plugin enabled?', SCSS3B_LOCAL); ?></label></strong></th>
-						<td><input type="checkbox" id="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" name="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_ENABLED_NAME]); ?> /></td>
+					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Is plugin enabled? Uncheck this to turn it off temporarily.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]"><?php _e('Plugin enabled?', scss3b_get_local()); ?></label></strong></th>
+						<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_ENABLED_NAME]); ?> /></td>
 					</tr>
-					<tr valign="top"><td colspan="2"><?php _e('Is plugin enabled? Uncheck this to turn it off temporarily.', SCSS3B_LOCAL); ?></td></tr>
-					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Select the style you would like to use as the default.', SCSS3B_LOCAL); ?>" for="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]"><?php _e('Default style', SCSS3B_LOCAL); ?></label></strong></th>
-						<td><select id="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]" name="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]">
+					<tr valign="top"><td colspan="2"><?php _e('Is plugin enabled? Uncheck this to turn it off temporarily.', scss3b_get_local()); ?></td></tr>
+					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Select the style you would like to use as the default.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]"><?php _e('Default style', scss3b_get_local()); ?></label></strong></th>
+						<td><select id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]">
 						<?php $buttonstyles = explode(",", SCSS3B_AVAILABLE_STYLES);
 							sort($buttonstyles);
 							foreach($buttonstyles as $buttonstyle) {
@@ -111,98 +114,47 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 							} ?>
 						</select></td>
 					</tr>
-			<tr valign="top"><td colspan="2"><?php _e('Select the style you would like to use as the default if no style is otherwise specified.', SCSS3B_LOCAL); ?></td></tr>
-			
-					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter default URL to use for buttons, if you do not pass one to the plugin via shortcode or function.', SCSS3B_LOCAL); ?>" for="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]"><?php _e('Default button URL', SCSS3B_LOCAL); ?></label></strong></th>
-			<td><input type="url" id="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" name="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" value="<?php echo $options[SCSS3B_DEFAULT_URL_NAME]; ?>" /></td>
+			<tr valign="top"><td colspan="2"><?php _e('Select the style you would like to use as the default if no style is otherwise specified.', scss3b_get_local()); ?></td></tr>
+					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter default URL to use for buttons, if you do not pass one to the plugin via shortcode or function.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]"><?php _e('Default button URL', scss3b_get_local()); ?></label></strong></th>
+			<td><input type="url" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" value="<?php echo $options[SCSS3B_DEFAULT_URL_NAME]; ?>" /></td>
 					</tr>
-			<tr valign="top"><td colspan="2"><?php _e('Enter default URL to use for buttons. This URL will be used if you do not override it at the shortcode level.', SCSS3B_LOCAL); ?></td></tr>
-					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Check this box to add rel=nofollow to button links.', SCSS3B_LOCAL); ?>" for="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]"><?php _e('Nofollow button link?', SCSS3B_LOCAL); ?></label></strong></th>
-			<td><input type="checkbox" id="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" name="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NOFOLLOW_NAME]); ?> /></td>
+			<tr valign="top"><td colspan="2"><?php _e('Enter default URL to use for buttons. This URL will be used if you do not override it at the shortcode level.', scss3b_get_local()); ?></td></tr>
+					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Check this box to add rel=nofollow to button links.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]"><?php _e('Nofollow button link?', scss3b_get_local()); ?></label></strong></th>
+			<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NOFOLLOW_NAME]); ?> /></td>
 					</tr>
-			<tr valign="top"><td colspan="2"><?php _e('Check this box to add rel="nofollow" to button links. You can override this at the shortcode level.', SCSS3B_LOCAL); ?></td></tr>
-					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Check this box to open links in a new window.', SCSS3B_LOCAL); ?>" for="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]"><?php _e('Open links in new window?', SCSS3B_LOCAL); ?></label></strong></th>
-			<td><input type="checkbox" id="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" name="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NEWWINDOW_NAME]); ?> /></td>
+			<tr valign="top"><td colspan="2"><?php _e('Check this box to add rel="nofollow" to button links. You can override this at the shortcode level.', scss3b_get_local()); ?></td></tr>
+					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Check this box to open links in a new window.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]"><?php _e('Open links in new window?', scss3b_get_local()); ?></label></strong></th>
+			<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NEWWINDOW_NAME]); ?> /></td>
 					</tr>
-			<tr valign="top"><td colspan="2"><?php _e('Check this box to open links in a new window. You can override this at the shortcode level.', SCSS3B_LOCAL); ?></td></tr>
-					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter custom CSS', SCSS3B_LOCAL); ?>" for="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]"><?php _e('Enter custom CSS', SCSS3B_LOCAL); ?></label></strong></th>
-			<td><textarea rows="12" cols="75" id="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]" name="<?php echo SCSS3B_OPTION; ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]"><?php echo $options[SCSS3B_DEFAULT_CUSTOM_CSS_NAME]; ?></textarea></td>
+			<tr valign="top"><td colspan="2"><?php _e('Check this box to open links in a new window. You can override this at the shortcode level.', scss3b_get_local()); ?></td></tr>
+					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter custom CSS', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]"><?php _e('Enter custom CSS', scss3b_get_local()); ?></label></strong></th>
+			<td><textarea rows="12" cols="75" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]"><?php echo $options[SCSS3B_DEFAULT_CUSTOM_CSS_NAME]; ?></textarea></td>
 			</tr>
-			<tr valign="top"><td colspan="2"><?php _e('If you use your own custom class names, enter the CSS here. Use the custom class name (minus the "scss3b-button-" prefix) in the shortcode or when calling the function in PHP.', SCSS3B_LOCAL); ?></td></tr>
+			<tr valign="top"><td colspan="2"><?php _e('If you use your own custom class names, enter the CSS here. Use the custom class name (minus the "scss3b-button-" prefix) in the shortcode or when calling the function in PHP.', scss3b_get_local()); ?></td></tr>
 				</table>
 				<?php submit_button(); ?>
-			</form>
-			<hr />
-			<h3 id="parameters"><img src="<?php echo plugins_url(plugin_basename(dirname(__FILE__) . '/images/parameters.png')) ?>" title="" alt="" height="64" width="64" align="absmiddle" /> Plugin Parameters and Default Values</h3>
+			<?php } elseif ($active_tab == 'parameters') { ?>
+			<h3 id="parameters"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/parameters.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php _e('Plugin Parameters and Default Values', scss3b_get_local()); ?></h3>
 			These are the parameters for using the shortcode, or calling the plugin from your PHP code.
 			
 			For available colors, see the dropdown list above.
-			<table class="widefat">
-				<thead>
-					<tr>
-						<th title="<?php _e('The name of the parameter', SCSS3B_LOCAL); ?>"><strong><?php _e('Parameter Name', SCSS3B_LOCAL); ?></strong></th>
-						<th title="<?php _e('Is this parameter required?', SCSS3B_LOCAL); ?>"><strong><?php _e('Is Required?', SCSS3B_LOCAL); ?></strong></th>
-						<th title="<?php _e('What data type this parameter accepts', SCSS3B_LOCAL); ?>"><strong><?php _e('Data Type', SCSS3B_LOCAL); ?></strong></th>
-						<th title="<?php _e('What, if any, is the default if no value is specified', SCSS3B_LOCAL); ?>"><strong><?php _e('Default Value', SCSS3B_LOCAL); ?></strong></th>
-					</tr>
-				</thead>
-				<tbody>
-			<?php $plugin_defaults_keys = array_keys(scss3b_shortcode_defaults());
-						$plugin_defaults_values = array_values(scss3b_shortcode_defaults());
-						$scss3b_required = scss3b_required_parameters();
-						for($i=0; $i<count($plugin_defaults_keys);$i++) { ?>
-					<tr>
-						<td><strong><?php echo $plugin_defaults_keys[$i]; ?></strong></td>
-						<td><?php 
-							if ($scss3b_required[$i] === true) {
-								echo '<strong>';
-								_e('Yes', SCSS3B_LOCAL);
-								echo '</strong>';
-							} else {
-								_e('No', SCSS3B_LOCAL); 
-							}
-						?></td>
-						<td><?php echo gettype($plugin_defaults_values[$i]); ?></td>
-						<td><?php 
-							if ($plugin_defaults_values[$i] === true) {
-								echo '<strong>';
-								_e('true', SCSS3B_LOCAL);
-								echo '</strong>';
-							} elseif ($plugin_defaults_values[$i] === false) {
-								_e('false', SCSS3B_LOCAL);
-							} elseif ($plugin_defaults_values[$i] === '') {
-								echo '<em>';
-								_e('this value is blank by default', SCSS3B_LOCAL);
-								echo '</em>';
-							} elseif (is_numeric($plugin_defaults_values[$i])) {
-								echo $plugin_defaults_values[$i];
-							} else { 
-								echo '"' . $plugin_defaults_values[$i] . '"';
-							} ?></td>
-					</tr>
-			<?php } ?>
-			</tbody>
-			</table>
-			<h3 id="support"><img src="<?php echo plugins_url(plugin_basename(dirname(__FILE__) . '/images/support.png')) ?>" title="" alt="" height="64" width="64" align="absmiddle" /> Support</h3>
+
+			<?php echo scss3b_parameters_table(scss3b_get_local(), scss3b_shortcode_defaults(), scss3b_required_parameters()); ?>			
+
+			<h3 id="examples"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/examples.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php _e('Shortcode and PHP Examples', scss3b_get_local()); ?></h3>
+			<h4><?php _e('Shortcode Format:', scss3b_get_local()); ?></h4>
+			<?php echo scss3b_get_example_shortcode('standout-css3-button', scss3b_shortcode_defaults(), scss3b_get_local()); ?>
+
+			<h4><?php _e('PHP Format:', scss3b_get_local()); ?></h4>
+			<?php echo scss3b_get_example_php_code('standout-css3-button', 'scss3button', scss3b_shortcode_defaults()); ?>
+			<?php _e('<small>Note: \'show\' is false by default; set it to <strong>true</strong> echo the output, or <strong>false</strong> to return the output to your PHP code.</small>', scss3b_get_local()); ?>
+			<?php } else { ?>
+			<h3 id="support"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/support.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php _e('Support', scss3b_get_local()); ?></h3>
 				<div class="support">
-				<?php echo '<a href="http://wordpress.org/extend/plugins/' . SCSS3B_SLUG . '/">' . __('Documentation', SCSS3B_LOCAL) . '</a> | ';
-					echo '<a href="http://wordpress.org/plugins/' . SCSS3B_SLUG . '/faq/">' . __('FAQ', SCSS3B_LOCAL) . '</a><br />';
-					_e('If you like this plugin, please ', SCSS3B_LOCAL);
-					echo '<a href="http://wordpress.org/support/view/plugin-reviews/' . SCSS3B_SLUG . '/">';
-					_e('rate it on WordPress.org', SCSS3B_LOCAL);
-					echo '</a> ';
-					_e('and click the ', SCSS3B_LOCAL);
-					echo '<a href="http://wordpress.org/plugins/' . SCSS3B_SLUG .  '/#compatibility">';
-					_e('Works', SCSS3B_LOCAL);
-					echo '</a> ';
-					_e('button. For support please visit the ', SCSS3B_LOCAL);
-					echo '<a href="http://wordpress.org/support/plugin/' . SCSS3B_SLUG . '">';
-					_e('forums', SCSS3B_LOCAL);
-					echo '</a>.';
-				?>
-				<br /><br />
-				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate with PayPal" title="Donate with PayPal" width="92" height="26" /></a>
+				<?php echo scss3b_getsupportinfo(scss3b_get_slug(), scss3b_get_local()); ?>
 				</div>
+			<?php } ?>
+			</form>
 		</div>
 		<?php }
 	// shortcode and function
@@ -212,7 +164,7 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 		extract(shortcode_atts(scss3b_shortcode_defaults(), $atts));
 		// plugin is enabled/disabled from settings page only
 		$options = scss3b_getpluginoptions();
-		$enabled = $options[SCSS3B_DEFAULT_ENABLED_NAME];
+		$enabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
 		
 		// ******************************
 		// derive shortcode values from constants
@@ -220,7 +172,7 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 		$temp_style = constant('SCSS3B_DEFAULT_STYLE_NAME');
 		$cssclass = $$temp_style;
 		$temp_url = constant('SCSS3B_DEFAULT_URL_NAME');
-		$url = $$temp_url;
+		$linkurl = $$temp_url;
 		$temp_nofollow = constant('SCSS3B_DEFAULT_NOFOLLOW_NAME');
 		$nofollow = $$temp_nofollow;
 		$temp_window = constant('SCSS3B_DEFAULT_NEWWINDOW_NAME');
@@ -231,7 +183,7 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 		// ******************************
 		// sanitize user input
 		// ******************************
-		$url = esc_url($url);
+		$linkurl = esc_url($linkurl);
 		$cssclass = sanitize_html_class($cssclass);
 		if (!$cssclass) {
 			$cssclass = SCSS3B_DEFAULT_STYLE;
@@ -240,6 +192,13 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 		$opennewwindow = (bool)$opennewwindow;
 		$show = (bool)$show;
 
+		// allow alternate parameter names for url
+		if ($atts['url']) {
+			$linkurl = esc_url($atts['url']);
+		} elseif ($atts['link']) {
+			$linkurl = esc_url($atts['link']);
+		}
+
 		// ******************************
 		// check for parameters, then settings, then defaults
 		// ******************************
@@ -247,13 +206,17 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 			if ($content === null) { 
 				// what is the point of a button w/ no text?
 				$enabled = false;
-				$output = '<!-- ' . SCSS3B_PLUGIN_NAME . ': ' . __('plugin is disabled. Either you did not pass a necessary setting to the plugin, or did not configure a default. Check Settings page.', SCSS3B_LOCAL) . ' -->';
+				$output = '<!-- ' . SCSS3B_PLUGIN_NAME . ': ';
+				$output .= __('plugin is disabled. Either you did not pass a necessary setting to the plugin, or did not configure a default. Check Settings page.', scss3b_get_local());
+				$output .= ' -->';
 			} else { 
-				if ($url == SCSS3B_DEFAULT_URL) { // no url passed to function, try settings page
-					$url = $options[SCSS3B_DEFAULT_URL_NAME];
-					if (($url == SCSS3B_DEFAULT_URL) || ($url == false)) { // no url on settings page either
+				if ($linkurl == SCSS3B_DEFAULT_URL) { // no url passed to function, try settings page
+					$linkurl = $options[SCSS3B_DEFAULT_URL_NAME];
+					if (($linkurl == SCSS3B_DEFAULT_URL) || ($linkurl == false)) { // no url on settings page either
 						$enabled = false;
-						$output = '<!-- ' . SCSS3B_PLUGIN_NAME . ': ' . __('plugin is disabled. Either you did not pass a necessary setting to the plugin, or did not configure a default. Check Settings page.', SCSS3B_LOCAL) . ' -->';
+						$output = '<!-- ' . SCSS3B_PLUGIN_NAME . ': ';
+						$output .= __('plugin is disabled. Either you did not pass a necessary setting to the plugin, or did not configure a default. Check Settings page.', scss3b_get_local());
+						$output .= ' -->';
 					}
 				}
 			}
@@ -261,18 +224,9 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 		if ($enabled) {
 			// plugin is enabled and there is content
 			// check for overridden parameters, if nonexistent then get from DB
-			if ($nofollow === SCSS3B_DEFAULT_NOFOLLOW) {
-				$nofollow = $options[SCSS3B_DEFAULT_NOFOLLOW_NAME];
-				if ($nofollow === false) {
-					$nofollow = SCSS3B_DEFAULT_NOFOLLOW;
-				}
-			}
-			if ($opennewwindow === SCSS3B_DEFAULT_NEWWINDOW) {
-				$opennewwindow = $options[SCSS3B_DEFAULT_NEWWINDOW_NAME];
-				if ($opennewwindow === false) {
-					$opennewwindow = SCSS3B_DEFAULT_NEWWINDOW;
-				}
-			}
+			$nofollow = scss3b_setupvar($nofollow, SCSS3B_DEFAULT_NOFOLLOW, SCSS3B_DEFAULT_NOFOLLOW_NAME, $options);
+			$opennewwindow = scss3b_setupvar($opennewwindow, SCSS3B_DEFAULT_NEWWINDOW, SCSS3B_DEFAULT_NEWWINDOW_NAME, $options);
+			
 			// check if existing color value was passed
 			if (($cssclass == false) || ($cssclass == SCSS3B_DEFAULT_STYLE)) {
 				// not passed by shortcode, use default
@@ -302,13 +256,15 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 			$output .= ' ' . $cssclass . '"';
 			$output .= ($opennewwindow ? ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;" ' : '');
 			$output .= ($nofollow ? ' rel="nofollow"' : '');
-			$output .= ' href="' . $url . '"';
+			$output .= ' href="' . $linkurl . '"';
 			$output .= '>';
-			$output .= do_shortcode(wp_kses_post(force_balance_tags($content)));
+			$output .= do_shortcode(wp_kses_data(force_balance_tags($content)));
 			$output .=  '</a>';
 			
 		} else { // plugin disabled
-			$output = '<!-- ' . SCSS3B_PLUGIN_NAME . ': ' . __('plugin is disabled. Either you did not pass a necessary setting to the plugin, or did not configure a default. Check Settings page.', SCSS3B_LOCAL) . ' -->';
+			$output = '<!-- ' . SCSS3B_PLUGIN_NAME . ': ';
+			$output .= __('plugin is disabled. Either you did not pass a necessary setting to the plugin, or did not configure a default. Check Settings page.', scss3b_get_local());
+			$output .= ' -->';
 		} // end enabled check
 		if ($show) {
 			echo $output;
@@ -323,17 +279,17 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 		global $pagenow;
 		if (current_user_can(SCSS3B_PERMISSIONS_LEVEL)) { // user has privilege
 			if ($pagenow == 'options-general.php') { // we are on Settings page
-				if ($_GET['page'] == SCSS3B_SLUG) { // we are on this plugin's settings page
+				if ($_GET['page'] == scss3b_get_slug()) { // we are on this plugin's settings page
 					$options = scss3b_getpluginoptions();
 					if ($options != false) {
-				$enabled = $options[SCSS3B_DEFAULT_ENABLED_NAME];
+				$enabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
 						$cssclass = $options[SCSS3B_DEFAULT_STYLE_NAME];
-						$url = $options[SCSS3B_DEFAULT_URL_NAME];
+						$linkurl = $options[SCSS3B_DEFAULT_URL_NAME];
 						if (!$enabled) {
-				echo '<div id="message" class="error">' . SCSS3B_PLUGIN_NAME . ' ' . __('is currently disabled.', SCSS3B_LOCAL) . '</div>';
-			}
-						if (($cssclass === SCSS3B_DEFAULT_STYLE) || ($cssclass === false) || ($url === SCSS3B_DEFAULT_URL) || ($url === false)) {
-			echo '<div id="message" class="updated">' . __('Please confirm the default CSS style and URL and click "Save".', SCSS3B_LOCAL) . '</div>';
+							echo '<div id="message" class="error">' . SCSS3B_PLUGIN_NAME . ' ' . __('is currently disabled.', scss3b_get_local()) . '</div>';
+						}
+						if (($cssclass === SCSS3B_DEFAULT_STYLE) || ($cssclass === false) || ($linkurl === SCSS3B_DEFAULT_URL) || ($linkurl === false)) {
+							echo '<div id="message" class="updated">' . __('Please confirm the default CSS style and URL and click "Save".', scss3b_get_local()) . '</div>';
 						}
 					}
 				}
@@ -346,34 +302,31 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 		global $pagenow;
 		if (current_user_can(SCSS3B_PERMISSIONS_LEVEL)) { // user has privilege
 			if ($pagenow == 'options-general.php') {
-				if ($_GET['page'] == SCSS3B_SLUG) { // we are on settings page
+				if ($_GET['page'] == scss3b_get_slug()) { // we are on this plugin's settings page
 					scss3b_admin_styles();
 				}
 			}
 		}
 	}
-	// add settings link on plugin page
+	// add helpful links to plugin page next to plugin name
 	// http://bavotasan.com/2009/a-settings-link-for-your-wordpress-plugins/
-	add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'scss3b_plugin_settings_link' );
-	function scss3b_plugin_settings_link($links) {
-		$settings_link = '<a href="options-general.php?page=' . SCSS3B_SLUG . '">' . __('Settings', SCSS3B_LOCAL) . '</a>';
-		array_unshift($links, $settings_link);
-		return $links;
-	}
 	// http://wpengineer.com/1295/meta-links-for-wordpress-plugins/
+	add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'scss3b_plugin_settings_link');
 	add_filter('plugin_row_meta', 'scss3b_meta_links', 10, 2);
+	
+	function scss3b_plugin_settings_link($links) {
+		return scss3b_settingslink($links, scss3b_get_slug(), scss3b_get_local());
+	}
 	function scss3b_meta_links($links, $file) {
-		$plugin = plugin_basename(__FILE__);
-		// create link
-		if ($file == $plugin) {
+		if ($file == plugin_basename(__FILE__)) {
 			$links = array_merge($links,
-				array(
-					'<a href="http://wordpress.org/support/plugin/' . SCSS3B_SLUG . '">' . __('Support', SCSS3B_LOCAL) . '</a>',
-					'<a href="http://wordpress.org/extend/plugins/' . SCSS3B_SLUG . '/">' . __('Documentation', SCSS3B_LOCAL) . '</a>',
-					'<a href="http://wordpress.org/plugins/' . SCSS3B_SLUG . '/faq/">' . __('FAQ', SCSS3B_LOCAL) . '</a>'
+			array(
+				sprintf(__('<a href="http://wordpress.org/support/plugin/%s">Support</a>', scss3b_get_local()), scss3b_get_slug()),
+				sprintf(__('<a href="http://wordpress.org/extend/plugins/%s/">Documentation</a>', scss3b_get_local()), scss3b_get_slug()),
+				sprintf(__('<a href="http://wordpress.org/plugins/%s/faq/">FAQ</a>', scss3b_get_local()), scss3b_get_slug())
 			));
 		}
-		return $links;
+		return $links;	
 	}
 	// enqueue/register the plugin CSS file
 	function scss3b_button_styles() {
@@ -381,7 +334,7 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 	}
 	function register_scss3b_style() {
 		wp_register_style('standout_css3_button_style', 
-			plugins_url(plugin_basename(dirname(__FILE__)) . '/css/standout-css3-buttons.css'), 
+			plugins_url(scss3b_get_path() . '/css/standout-css3-buttons.css'), 
 			array(), 
 			SCSS3B_VERSION . "_" . date('njYHis', filemtime(dirname(__FILE__) . '/css/standout-css3-buttons.css')),
 			'all' );
@@ -392,7 +345,7 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 	}
 	function register_scss3b_admin_style() {
 		wp_register_style('scss3b_admin_style',
-			plugins_url(plugin_basename(dirname(__FILE__)) . '/css/admin.css'),
+			plugins_url(scss3b_get_path() . '/css/admin.css'),
 			array(),
 			SCSS3B_VERSION . "_" . date('njYHis', filemtime(dirname(__FILE__) . '/css/admin.css')),
 			'all');
@@ -400,7 +353,7 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 	// enqueue/register the custom CSS file
 	function scss3b_custom_styles() {
 		wp_register_style('scss3b_custom_style',
-			plugins_url(plugin_basename(dirname(__FILE__)) . '/css/custom.css'),
+			plugins_url(scss3b_get_path() . '/css/custom.css'),
 		array(),
 		SCSS3B_VERSION . "_" . date('njYHis', filemtime(dirname(__FILE__) . '/css/custom.css')),
 		'all');
@@ -415,7 +368,7 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 	}
 	function register_scss3b_admin_script() {
 		wp_register_script('scss3b_add_editor_button',
-			plugins_url(plugin_basename(dirname(__FILE__)) . '/js/editor_button.js'), 
+			plugins_url(scss3b_get_path() . '/js/editor_button.js'), 
 			array('quicktags'), 
 			SCSS3B_VERSION . "_" . date('njYHis', filemtime(dirname(__FILE__) . '/js/editor_button.js')),
 			true);
@@ -424,12 +377,19 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 	register_activation_hook(__FILE__, 'scss3b_activate');
 	function scss3b_activate() {
 		$options = scss3b_getpluginoptions();
-		update_option(SCSS3B_OPTION, $options);
+		update_option(scss3b_get_option(), $options);
+
+		// delete option when plugin is uninstalled
+		register_uninstall_hook(__FILE__, 'uninstall_scss3b_plugin');
 	}
+	function uninstall_scss3b_plugin() {
+		delete_option(scss3b_get_option());
+	}		
+		
 	// generic function that returns plugin options from DB
 	// if option does not exist, returns plugin defaults
 	function scss3b_getpluginoptions() {
-		return get_option(SCSS3B_OPTION, 
+		return get_option(scss3b_get_option(), 
 			array(
 				SCSS3B_DEFAULT_ENABLED_NAME => SCSS3B_DEFAULT_ENABLED, 
 				SCSS3B_DEFAULT_STYLE_NAME => SCSS3B_DEFAULT_STYLE, 
@@ -458,5 +418,141 @@ define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
 			false, 
 			false
 		);
+	}
+	
+	// encapsulate these and call them throughout the plugin instead of hardcoding the constants everywhere
+	function scss3b_get_slug() { return SCSS3B_SLUG; }
+	function scss3b_get_local() { return SCSS3B_LOCAL; }
+	function scss3b_get_option() { return SCSS3B_OPTION; }
+	function scss3b_get_path() { return SCSS3B_PATH; }
+	
+	function scss3b_settingslink($linklist, $slugname = '', $localname = '') {
+		$settings_link = sprintf( __('<a href="options-general.php?page=%s">Settings</a>', $localname), $slugname);
+		array_unshift($linklist, $settings_link);
+		return $linklist;
+	}
+	function scss3b_setupvar($var, $defaultvalue, $defaultvarname, $optionsarr) {
+		if ($var == $defaultvalue) {
+			$var = $optionsarr[$defaultvarname];
+			if (!$var) {
+				$var = $defaultvalue;
+			}
+		}
+		return $var;
+	}
+	function scss3b_getsupportinfo($slugname = '', $localname = '') {
+		$output = sprintf( __('<a href="http://wordpress.org/extend/plugins/%s/">Documentation</a> | ', $localname), $slugname);
+		$output .= sprintf( __('<a href="http://wordpress.org/plugins/%s/faq/">FAQ</a><br />', $localname), $slugname);
+		$output .= sprintf( __('If you like this plugin, please <a href="http://wordpress.org/support/view/plugin-reviews/%s/">rate it on WordPress.org</a>', $localname), $slugname);
+		$output .= sprintf( __(' and click the <a href="http://wordpress.org/plugins/%s/#compatibility">Works</a> button. ', $localname), $slugname);
+		$output .= sprintf( __('For support please visit the <a href="http://wordpress.org/support/plugin/%s">forums</a>.', $localname), $slugname);
+		$output .= '<br /><br />';
+		$output .= '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate with PayPal" title="Donate with PayPal" width="92" height="26" /></a>';
+		$output .= '<br /><br />';
+		return $output;				
+	}
+	
+	function scss3b_parameters_table($localname = '', $sc_defaults, $reqparms) {
+	  $output = '<table class="widefat">';
+		$output .= '<thead><tr>';
+		$output .= '<th title="' . __('The name of the parameter', $localname) . '"><strong>' . __('Parameter Name', $localname) . '</strong></th>';
+		$output .= '<th title="' . __('Is this parameter required?', $localname) . '"><strong>' . __('Is Required?', $localname) . '</strong></th>';
+		$output .= '<th title="' . __('What data type this parameter accepts', $localname) . '"><strong>' . __('Data Type', $localname) . '</strong></th>';
+		$output .= '<th title="' . __('What, if any, is the default if no value is specified', $localname) . '"><strong>' . __('Default Value', $localname) . '</strong></th>';
+		$output .= '</tr></thead>';
+		$output .= '<tbody>';
+		
+		$plugin_defaults_keys = array_keys($sc_defaults);
+		$plugin_defaults_values = array_values($sc_defaults);
+		$required = $reqparms;
+		for($i = 0; $i < count($plugin_defaults_keys); $i++) {
+			$output .= '<tr>';
+			$output .= '<td><strong>' . $plugin_defaults_keys[$i] . '</strong></td>';
+			$output .= '<td>';
+			
+			if ($required[$i] === true) {
+				$output .= '<strong>';
+				$output .= __('Yes', $localname);
+				$output .= '</strong>';
+			} else {
+				$output .= __('No', $localname);
+			}
+			
+			$output .= '</td>';
+			$output .= '<td>' . gettype($plugin_defaults_values[$i]) . '</td>';
+			$output .= '<td>';
+			
+			if ($plugin_defaults_values[$i] === true) {
+				$output .= '<strong>';
+				$output .= __('true', $localname);
+				$output .= '</strong>';
+			} elseif ($plugin_defaults_values[$i] === false) {
+				$output .= __('false', $localname);
+			} elseif ($plugin_defaults_values[$i] === '') {
+				$output .= '<em>';
+				$output .= __('this value is blank by default', $localname);
+				$output .= '</em>';
+			} elseif (is_numeric($plugin_defaults_values[$i])) {
+				$output .= $plugin_defaults_values[$i];
+			} else { 
+				$output .= '"' . $plugin_defaults_values[$i] . '"';
+			} 
+			$output .= '</td>';
+			$output .= '</tr>';
+		}
+		$output .= '</tbody>';
+		$output .= '</table>';
+		
+		return $output;
+	}
+	function scss3b_get_example_shortcode($shortcodename = '', $sc_defaults, $localname = '') {
+		$output = '<pre style="background:#FFF">[' . $shortcodename . ' ';
+		
+		$plugin_defaults_keys = array_keys($sc_defaults);
+		$plugin_defaults_values = array_values($sc_defaults);
+		
+		for($i = 0; $i < count($plugin_defaults_keys); $i++) {
+			if ($plugin_defaults_keys[$i] !== 'show') {
+				if (gettype($plugin_defaults_values[$i]) === 'string') {
+					$output .= '<strong>' . $plugin_defaults_keys[$i] . '</strong>=\'' . $plugin_defaults_values[$i] . '\'';
+				} elseif (gettype($plugin_defaults_values[$i]) === 'boolean') {
+					$output .= '<strong>' . $plugin_defaults_keys[$i] . '</strong>=' . ($plugin_defaults_values[$i] == false ? 'false' : 'true');
+				} else {
+					$output .= '<strong>' . $plugin_defaults_keys[$i] . '</strong>=' . $plugin_defaults_values[$i];
+				}
+				if ($i < count($plugin_defaults_keys) - 1) {
+					$output .= ' ';
+				}
+			}
+		}
+		$output .= ']</pre>';
+		
+		return $output;
+	}
+	function scss3b_get_example_php_code($shortcodename = '', $internalfunctionname = '', $sc_defaults) {
+		$plugin_defaults_keys = array_keys($sc_defaults);
+		$plugin_defaults_values = array_values($sc_defaults);
+		
+		$output = '<pre style="background:#FFF">';
+		$output .= 'if (shortcode_exists(\'' . $shortcodename . '\')) {<br />';
+		$output .= '  $atts = array(<br />';
+		for($i = 0; $i < count($plugin_defaults_keys); $i++) {
+			$output .= '    \'' . $plugin_defaults_keys[$i] . '\' => ';
+			if (gettype($plugin_defaults_values[$i]) === 'string') {
+				$output .= '\'' . $plugin_defaults_values[$i] . '\'';
+			} elseif (gettype($plugin_defaults_values[$i]) === 'boolean') {
+				$output .= ($plugin_defaults_values[$i] == false ? 'false' : 'true');
+			} else {
+				$output .= $plugin_defaults_values[$i];
+			}
+			if ($i < count($plugin_defaults_keys) - 1) {
+				$output .= ', <br />';
+			}
+		}
+		$output .= '<br />  );<br />';
+		$output .= '   echo ' . $internalfunctionname . '($atts);';
+		$output .= '<br />}';
+		$output .= '</pre>';
+		return $output;	
 	}
 ?>

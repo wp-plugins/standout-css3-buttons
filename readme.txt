@@ -185,6 +185,12 @@ This plugin adds one or more toolbar buttons to the HTML editor. You will not se
 
 The label on the toolbar button is "CSS3 Button".
 
+= I am using the shortcode but the parameters aren't working. =
+
+On the plugin settings page, go to the "Parameters" tab. There is a list of possible parameters there along with the default values. Make sure you are spelling the parameters correctly.
+
+The Parameters tab also contains sample shortcode and PHP code.
+
 == Screenshots ==
 
 1. Plugin settings page
@@ -192,8 +198,14 @@ The label on the toolbar button is "CSS3 Button".
 
 == Changelog ==
 
+= 0.2.5 =
+- code optimizations
+- use 'href', 'url' or 'link' as the URL parameter name
+- plugin settings page is now tabbed
+- made CSS responsive
+
 = 0.2.4 =
-- fix for wp_kses
+- fix2 for wp_kses
 
 = 0.2.3 =
 - fix for wp_kses
@@ -302,8 +314,11 @@ created
 
 == Upgrade Notice ==
 
+= 0.2.5 =
+- code optimizations; use 'href', 'url' or 'link' as the URL parameter name; plugin settings page is now tabbed; made CSS responsive
+
 = 0.2.4 =
-- fix for wp_kses
+- fix2 for wp_kses
 
 = 0.2.3 =
 - fix for wp_kses

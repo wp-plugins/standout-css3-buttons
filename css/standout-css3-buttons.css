@@ -1,7 +1,7 @@
 /* Gradient Social Media Buttons 
 ------------------------------------------------------------ */
 /* rules for all buttons */
-a.scss3b-button {-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;box-shadow: 0 1px 1px #999;color: #fff;display: inline-block;font-size: 16px;margin: 0 20px 20px 0;padding: 10px 15px;text-align: center;text-decoration:none}
+a.scss3b-button {-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;box-shadow: 0 1px 1px #999;color: #fff;display: inline-block;font-size: 16px;margin: 0 20px 20px 0;padding: 10px 15px;text-align: center;text-decoration:none;width:auto;max-width:100%;height:auto}
 
 /* black text for these buttons */
 a.scss3b-button-lightgray,a.scss3b-button-neongreen {color:#000}
