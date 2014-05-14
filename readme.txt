@@ -198,6 +198,9 @@ The Parameters tab also contains sample shortcode and PHP code.
 
 == Changelog ==
 
+= 0.2.6 = 
+- code fix
+
 = 0.2.5 =
 - code optimizations
 - use 'href', 'url' or 'link' as the URL parameter name
@@ -313,6 +316,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.2.6 = 
+- code fix
 
 = 0.2.5 =
 - code optimizations; use 'href', 'url' or 'link' as the URL parameter name; plugin settings page is now tabbed; made CSS responsive

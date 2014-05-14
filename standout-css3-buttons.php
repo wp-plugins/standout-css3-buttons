@@ -258,7 +258,7 @@ License: GPLv2 or later
 			$output .= ($nofollow ? ' rel="nofollow"' : '');
 			$output .= ' href="' . $linkurl . '"';
 			$output .= '>';
-			$output .= do_shortcode(wp_kses_data(force_balance_tags($content)));
+			$output .= do_shortcode(wp_kses_post(force_balance_tags($content)));
 			$output .=  '</a>';
 			
 		} else { // plugin disabled
