@@ -200,6 +200,10 @@ The Parameters tab also contains sample shortcode and PHP code.
 
 = 0.2.6 = 
 - code fix
+- if plugin is temporarily disabled (via plugin settings page), skip some code to save some cycles
+- add your own custom css class name
+- added jquery dependency
+- updated support tab
 
 = 0.2.5 =
 - code optimizations
@@ -318,7 +322,7 @@ created
 == Upgrade Notice ==
 
 = 0.2.6 = 
-- code fix
+- code fix; added enabled checks; added custom css class option; added jquery dependency; updated support tab
 
 = 0.2.5 =
 - code optimizations; use 'href', 'url' or 'link' as the URL parameter name; plugin settings page is now tabbed; made CSS responsive

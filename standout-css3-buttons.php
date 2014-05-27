@@ -3,7 +3,7 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons with gradient color styles on your website using popular social media colors.
-Version: 0.2.5
+Version: 0.2.6
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
@@ -11,7 +11,7 @@ License: GPLv2 or later
 
 	// plugin constants
 	define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
-	define('SCSS3B_VERSION', '0.2.5');
+	define('SCSS3B_VERSION', '0.2.6');
 	define('SCSS3B_SLUG', 'standout-css3-buttons');
 	define('SCSS3B_LOCAL', 'scss3b');
 	define('SCSS3B_OPTION', 'scss3b');
@@ -21,15 +21,17 @@ License: GPLv2 or later
 	/* default values */
 	define('SCSS3B_DEFAULT_ENABLED', true);
 	define('SCSS3B_DEFAULT_STYLE', '');
+	define('SCSS3B_DEFAULT_CUSTOM_STYLE', '');
 	define('SCSS3B_DEFAULT_URL', '');
 	define('SCSS3B_DEFAULT_CUSTOM_CSS', '');
-	define('SCSS3B_DEFAULT_NOFOLLOW', true);
+	define('SCSS3B_DEFAULT_NOFOLLOW', false);
 	define('SCSS3B_DEFAULT_SHOW', false);
 	define('SCSS3B_DEFAULT_NEWWINDOW', false);
 	define('SCSS3B_AVAILABLE_STYLES', 'button-dribbble,button-facebook,button-googleplus,button-linkedin,button-pinterest,button-rss,button-tumblr,button-twitter,button-turquoise,button-emerald,button-somekindofblue,button-amethyst,button-bluegray,button-tangerine,button-fall,button-adobe,button-lightgray,button-dull,button-fancypurple,button-dullpurple,button-crispblue,button-braised,button-midnight,button-salmon,button-neongreen,button-brown,button-sourgreen');
 	/* option array member names */
 	define('SCSS3B_DEFAULT_ENABLED_NAME', 'enabled');
 	define('SCSS3B_DEFAULT_STYLE_NAME', 'cssclass');
+	define('SCSS3B_DEFAULT_CUSTOM_STYLE_NAME', 'customclass');
 	define('SCSS3B_DEFAULT_URL_NAME', 'href');
 	define('SCSS3B_DEFAULT_NOFOLLOW_NAME', 'nofollow');
 	define('SCSS3B_DEFAULT_SHOW_NAME', 'show');
@@ -61,8 +63,9 @@ License: GPLv2 or later
 	function scss3b_validation($input) {
 		// sanitize url
 		$input[SCSS3B_DEFAULT_URL_NAME] = esc_url($input[SCSS3B_DEFAULT_URL_NAME]);
-		// sanitize style
+		// sanitize styles
 		$input[SCSS3B_DEFAULT_STYLE_NAME] = sanitize_html_class($input[SCSS3B_DEFAULT_STYLE_NAME]);
+		$input[SCSS3B_DEFAULT_CUSTOM_STYLE_NAME] = sanitize_html_class($input[SCSS3B_DEFAULT_CUSTOM_STYLE_NAME]);
 		// sanitize custom css box
 		$input[SCSS3B_DEFAULT_CUSTOM_CSS_NAME] = sanitize_text_field($input[SCSS3B_DEFAULT_CUSTOM_CSS_NAME]);
 
@@ -115,7 +118,7 @@ License: GPLv2 or later
 						</select></td>
 					</tr>
 			<tr valign="top"><td colspan="2"><?php _e('Select the style you would like to use as the default if no style is otherwise specified.', scss3b_get_local()); ?></td></tr>
-					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter default URL to use for buttons, if you do not pass one to the plugin via shortcode or function.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]"><?php _e('Default button URL', scss3b_get_local()); ?></label></strong></th>
+			<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter default URL to use for buttons, if you do not pass one to the plugin via shortcode or function.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]"><?php _e('Default button URL', scss3b_get_local()); ?></label></strong></th>
 			<td><input type="url" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" value="<?php echo $options[SCSS3B_DEFAULT_URL_NAME]; ?>" /></td>
 					</tr>
 			<tr valign="top"><td colspan="2"><?php _e('Enter default URL to use for buttons. This URL will be used if you do not override it at the shortcode level.', scss3b_get_local()); ?></td></tr>
@@ -123,14 +126,18 @@ License: GPLv2 or later
 			<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NOFOLLOW_NAME]); ?> /></td>
 					</tr>
 			<tr valign="top"><td colspan="2"><?php _e('Check this box to add rel="nofollow" to button links. You can override this at the shortcode level.', scss3b_get_local()); ?></td></tr>
-					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Check this box to open links in a new window.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]"><?php _e('Open links in new window?', scss3b_get_local()); ?></label></strong></th>
-			<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NEWWINDOW_NAME]); ?> /></td>
-					</tr>
+			<tr valign="top"><th scope="row"><strong><label title="<?php _e('Check this box to open links in a new window.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]"><?php _e('Open links in new window?', scss3b_get_local()); ?></label></strong></th>
+				<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NEWWINDOW_NAME]); ?> /></td>
+			</tr>
 			<tr valign="top"><td colspan="2"><?php _e('Check this box to open links in a new window. You can override this at the shortcode level.', scss3b_get_local()); ?></td></tr>
 					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter custom CSS', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]"><?php _e('Enter custom CSS', scss3b_get_local()); ?></label></strong></th>
 			<td><textarea rows="12" cols="75" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]"><?php echo $options[SCSS3B_DEFAULT_CUSTOM_CSS_NAME]; ?></textarea></td>
 			</tr>
 			<tr valign="top"><td colspan="2"><?php _e('If you use your own custom class names, enter the CSS here. Use the custom class name (minus the "scss3b-button-" prefix) in the shortcode or when calling the function in PHP.', scss3b_get_local()); ?></td></tr>
+			<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter custom CSS class name', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_STYLE_NAME; ?>]"><?php _e('Enter custom CSS class name', scss3b_get_local()); ?></label></strong></th>
+				<td><input type="text" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_STYLE_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_STYLE_NAME; ?>]" value="<?php echo $options[SCSS3B_DEFAULT_CUSTOM_STYLE_NAME]; ?>" /></td>
+					</tr>
+			<tr valign="top"><td colspan="2"><?php _e('Add an additional CSS class here. This class name will be added to the button.', scss3b_get_local()); ?></td></tr>
 				</table>
 				<?php submit_button(); ?>
 			<?php } elseif ($active_tab == 'parameters') { ?>
@@ -143,7 +150,7 @@ License: GPLv2 or later
 
 			<h3 id="examples"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/examples.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php _e('Shortcode and PHP Examples', scss3b_get_local()); ?></h3>
 			<h4><?php _e('Shortcode Format:', scss3b_get_local()); ?></h4>
-			<?php echo scss3b_get_example_shortcode('standout-css3-button', scss3b_shortcode_defaults(), scss3b_get_local()); ?>
+			<?php echo '<pre style="background:#FFF">' . scss3b_get_example_shortcode('standout-css3-button', scss3b_shortcode_defaults(), scss3b_get_local()) . 'Content goes here[/standout-css3-button]</pre>'; ?>
 
 			<h4><?php _e('PHP Format:', scss3b_get_local()); ?></h4>
 			<?php echo scss3b_get_example_php_code('standout-css3-button', 'scss3button', scss3b_shortcode_defaults()); ?>
@@ -169,36 +176,45 @@ License: GPLv2 or later
 		// ******************************
 		// derive shortcode values from constants
 		// ******************************
-		$temp_style = constant('SCSS3B_DEFAULT_STYLE_NAME');
-		$cssclass = $$temp_style;
-		$temp_url = constant('SCSS3B_DEFAULT_URL_NAME');
-		$linkurl = $$temp_url;
-		$temp_nofollow = constant('SCSS3B_DEFAULT_NOFOLLOW_NAME');
-		$nofollow = $$temp_nofollow;
-		$temp_window = constant('SCSS3B_DEFAULT_NEWWINDOW_NAME');
-		$opennewwindow = $$temp_window;
-		$temp_show = constant('SCSS3B_DEFAULT_SHOW_NAME');
-		$show = $$temp_show;
+		if ($enabled) {
+			$temp_style = constant('SCSS3B_DEFAULT_STYLE_NAME');
+			$cssclass = $$temp_style;
+			$temp_custom_style = constant('SCSS3B_DEFAULT_CUSTOM_STYLE_NAME');
+			$scss3bcustomclass = $$temp_custom_style;
+			$temp_url = constant('SCSS3B_DEFAULT_URL_NAME');
+			$linkurl = $$temp_url;
+			$temp_nofollow = constant('SCSS3B_DEFAULT_NOFOLLOW_NAME');
+			$nofollow = $$temp_nofollow;
+			$temp_window = constant('SCSS3B_DEFAULT_NEWWINDOW_NAME');
+			$opennewwindow = $$temp_window;
+			$temp_show = constant('SCSS3B_DEFAULT_SHOW_NAME');
+			$show = $$temp_show;
+		}
 
 		// ******************************
 		// sanitize user input
 		// ******************************
-		$linkurl = esc_url($linkurl);
-		$cssclass = sanitize_html_class($cssclass);
-		if (!$cssclass) {
-			$cssclass = SCSS3B_DEFAULT_STYLE;
-		}
-		$nofollow = (bool)$nofollow;
-		$opennewwindow = (bool)$opennewwindow;
-		$show = (bool)$show;
+		if ($enabled) {
+			$linkurl = esc_url($linkurl);
+			$cssclass = sanitize_html_class($cssclass);
+			if (!$cssclass) {
+				$cssclass = SCSS3B_DEFAULT_STYLE;
+			}
+			$scss3bcustomclass = sanitize_html_class($scss3bcustomclass);
+			if (!$scss3bcustomclass) {
+				$scss3bcustomclass = SCSS3B_DEFAULT_CUSTOM_STYLE;
+			}
+			$nofollow = (bool)$nofollow;
+			$opennewwindow = (bool)$opennewwindow;
+			$show = (bool)$show;
 
-		// allow alternate parameter names for url
-		if ($atts['url']) {
-			$linkurl = esc_url($atts['url']);
-		} elseif ($atts['link']) {
-			$linkurl = esc_url($atts['link']);
+			// allow alternate parameter names for url
+			if (isset($atts['url'])) {
+				$linkurl = esc_url($atts['url']);
+			} elseif (isset($atts['link'])) {
+				$linkurl = esc_url($atts['link']);
+			}
 		}
-
 		// ******************************
 		// check for parameters, then settings, then defaults
 		// ******************************
@@ -224,6 +240,7 @@ License: GPLv2 or later
 		if ($enabled) {
 			// plugin is enabled and there is content
 			// check for overridden parameters, if nonexistent then get from DB
+			$scss3bcustomclass = scss3b_setupvar($scss3bcustomclass, SCSS3B_DEFAULT_CUSTOM_STYLE, SCSS3B_DEFAULT_CUSTOM_STYLE_NAME, $options);
 			$nofollow = scss3b_setupvar($nofollow, SCSS3B_DEFAULT_NOFOLLOW, SCSS3B_DEFAULT_NOFOLLOW_NAME, $options);
 			$opennewwindow = scss3b_setupvar($opennewwindow, SCSS3B_DEFAULT_NEWWINDOW, SCSS3B_DEFAULT_NEWWINDOW_NAME, $options);
 			
@@ -240,7 +257,7 @@ License: GPLv2 or later
 					@fwrite($fh, $options[SCSS3B_DEFAULT_CUSTOM_CSS_NAME]);
 					@fclose($fh);
 					// enqueue custom css file
-		scss3b_custom_styles();
+					scss3b_custom_styles();
 					// 'fix' class name
 					$cssclass = 'scss3b-button-' . $cssclass;
 				} else {
@@ -252,14 +269,14 @@ License: GPLv2 or later
 			scss3b_button_styles();
 
 			$output = '<a';
-			$output .= ' class="scss3b-button';
+			$output .= ' class="scss3b-button' . ($scss3bcustomclass ? ' ' . $scss3bcustomclass : '');
 			$output .= ' ' . $cssclass . '"';
 			$output .= ($opennewwindow ? ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;" ' : '');
 			$output .= ($nofollow ? ' rel="nofollow"' : '');
 			$output .= ' href="' . $linkurl . '"';
 			$output .= '>';
 			$output .= do_shortcode(wp_kses_post(force_balance_tags($content)));
-			$output .=  '</a>';
+			$output .= '</a>';
 			
 		} else { // plugin disabled
 			$output = '<!-- ' . SCSS3B_PLUGIN_NAME . ': ';
@@ -282,7 +299,7 @@ License: GPLv2 or later
 				if ($_GET['page'] == scss3b_get_slug()) { // we are on this plugin's settings page
 					$options = scss3b_getpluginoptions();
 					if ($options != false) {
-				$enabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
+						$enabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
 						$cssclass = $options[SCSS3B_DEFAULT_STYLE_NAME];
 						$linkurl = $options[SCSS3B_DEFAULT_URL_NAME];
 						if (!$enabled) {
@@ -384,8 +401,13 @@ License: GPLv2 or later
 	}
 	function uninstall_scss3b_plugin() {
 		delete_option(scss3b_get_option());
-	}		
-		
+	}
+	// function to validate hex color values
+	function scss3b_filter_hex_color($colorvalue) {
+		if (preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $colorvalue)) {
+			return $colorvalue;
+		}
+	}
 	// generic function that returns plugin options from DB
 	// if option does not exist, returns plugin defaults
 	function scss3b_getpluginoptions() {
@@ -393,6 +415,7 @@ License: GPLv2 or later
 			array(
 				SCSS3B_DEFAULT_ENABLED_NAME => SCSS3B_DEFAULT_ENABLED, 
 				SCSS3B_DEFAULT_STYLE_NAME => SCSS3B_DEFAULT_STYLE, 
+				SCSS3B_DEFAULT_CUSTOM_STYLE_NAME => SCSS3B_DEFAULT_CUSTOM_STYLE, 
 				SCSS3B_DEFAULT_URL_NAME => SCSS3B_DEFAULT_URL, 
 				SCSS3B_DEFAULT_NOFOLLOW_NAME => SCSS3B_DEFAULT_NOFOLLOW, 
 				SCSS3B_DEFAULT_NEWWINDOW_NAME => SCSS3B_DEFAULT_NEWWINDOW, 
@@ -404,6 +427,7 @@ License: GPLv2 or later
 		return array(
 			SCSS3B_DEFAULT_URL_NAME => SCSS3B_DEFAULT_URL, 
 			SCSS3B_DEFAULT_STYLE_NAME => SCSS3B_DEFAULT_STYLE, 
+			SCSS3B_DEFAULT_CUSTOM_STYLE_NAME => SCSS3B_DEFAULT_CUSTOM_STYLE, 
 			SCSS3B_DEFAULT_NOFOLLOW_NAME => SCSS3B_DEFAULT_NOFOLLOW, 
 			SCSS3B_DEFAULT_NEWWINDOW_NAME => SCSS3B_DEFAULT_NEWWINDOW, 
 			SCSS3B_DEFAULT_SHOW_NAME => SCSS3B_DEFAULT_SHOW
@@ -415,7 +439,8 @@ License: GPLv2 or later
 			true,
 			false,
 			false,
-			false, 
+			false,
+			false,
 			false
 		);
 	}
@@ -441,15 +466,23 @@ License: GPLv2 or later
 		return $var;
 	}
 	function scss3b_getsupportinfo($slugname = '', $localname = '') {
-		$output = sprintf( __('<a href="http://wordpress.org/extend/plugins/%s/">Documentation</a> | ', $localname), $slugname);
-		$output .= sprintf( __('<a href="http://wordpress.org/plugins/%s/faq/">FAQ</a><br />', $localname), $slugname);
+		$output = __('Do you need help with this plugin? Check out the following resources:', $localname);
+		$output .= '<ol>';
+		$output .= '<li>' . sprintf( __('<a href="http://wordpress.org/extend/plugins/%s/">Documentation</a>', $localname), $slugname) . '</li>';
+		$output .= '<li>' . sprintf( __('<a href="http://wordpress.org/plugins/%s/faq/">FAQ</a><br />', $localname), $slugname) . '</li>';
+		$output .= '<li>' . sprintf( __('<a href="http://wordpress.org/support/plugin/%s">Support Forum</a><br />', $localname), $slugname) . '</li>';
+		$output .= '<li>' . sprintf( __('<a href="http://www.jimmyscode.com/wordpress/%s">Plugin Homepage / Demo</a><br />', $localname), $slugname) . '</li>';
+		$output .= '<li>' . sprintf( __('<a href="http://wordpress.org/extend/plugins/%s/developers/">Development</a><br />', $localname), $slugname) . '</li>';
+		$output .= '<li>' . sprintf( __('<a href="http://wordpress.org/plugins/%s/changelog/">Changelog</a><br />', $localname), $slugname) . '</li>';
+		$output .= '</ol>';
+		
 		$output .= sprintf( __('If you like this plugin, please <a href="http://wordpress.org/support/view/plugin-reviews/%s/">rate it on WordPress.org</a>', $localname), $slugname);
 		$output .= sprintf( __(' and click the <a href="http://wordpress.org/plugins/%s/#compatibility">Works</a> button. ', $localname), $slugname);
-		$output .= sprintf( __('For support please visit the <a href="http://wordpress.org/support/plugin/%s">forums</a>.', $localname), $slugname);
+		$output .= '<br /><br /><br />';
+		$output .= __('Your donations encourage further development and support. ', $localname);
+		$output .= '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate with PayPal" title="Support this plugin" width="92" height="26" /></a>';
 		$output .= '<br /><br />';
-		$output .= '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate with PayPal" title="Donate with PayPal" width="92" height="26" /></a>';
-		$output .= '<br /><br />';
-		return $output;				
+		return $output;
 	}
 	
 	function scss3b_parameters_table($localname = '', $sc_defaults, $reqparms) {
@@ -506,7 +539,7 @@ License: GPLv2 or later
 		return $output;
 	}
 	function scss3b_get_example_shortcode($shortcodename = '', $sc_defaults, $localname = '') {
-		$output = '<pre style="background:#FFF">[' . $shortcodename . ' ';
+		$output = '[' . $shortcodename . ' ';
 		
 		$plugin_defaults_keys = array_keys($sc_defaults);
 		$plugin_defaults_values = array_values($sc_defaults);
@@ -520,12 +553,12 @@ License: GPLv2 or later
 				} else {
 					$output .= '<strong>' . $plugin_defaults_keys[$i] . '</strong>=' . $plugin_defaults_values[$i];
 				}
-				if ($i < count($plugin_defaults_keys) - 1) {
+				if ($i < count($plugin_defaults_keys) - 2) {
 					$output .= ' ';
 				}
 			}
 		}
-		$output .= ']</pre>';
+		$output .= ']';
 		
 		return $output;
 	}
