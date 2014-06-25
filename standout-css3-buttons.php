@@ -3,7 +3,7 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons with gradient color styles on your website using popular social media colors.
-Version: 0.2.6
+Version: 0.2.7
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
@@ -11,7 +11,7 @@ License: GPLv2 or later
 
 	// plugin constants
 	define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
-	define('SCSS3B_VERSION', '0.2.6');
+	define('SCSS3B_VERSION', '0.2.7');
 	define('SCSS3B_SLUG', 'standout-css3-buttons');
 	define('SCSS3B_LOCAL', 'scss3b');
 	define('SCSS3B_OPTION', 'scss3b');
@@ -61,14 +61,16 @@ License: GPLv2 or later
 	}
 	// validation function
 	function scss3b_validation($input) {
-		// sanitize url
-		$input[SCSS3B_DEFAULT_URL_NAME] = esc_url($input[SCSS3B_DEFAULT_URL_NAME]);
-		// sanitize styles
-		$input[SCSS3B_DEFAULT_STYLE_NAME] = sanitize_html_class($input[SCSS3B_DEFAULT_STYLE_NAME]);
-		$input[SCSS3B_DEFAULT_CUSTOM_STYLE_NAME] = sanitize_html_class($input[SCSS3B_DEFAULT_CUSTOM_STYLE_NAME]);
-		// sanitize custom css box
-		$input[SCSS3B_DEFAULT_CUSTOM_CSS_NAME] = sanitize_text_field($input[SCSS3B_DEFAULT_CUSTOM_CSS_NAME]);
-
+		if (!empty($input)) {
+			// validate all form fields
+			$input[SCSS3B_DEFAULT_ENABLED_NAME] = (bool)$input[SCSS3B_DEFAULT_ENABLED_NAME];
+			$input[SCSS3B_DEFAULT_NOFOLLOW_NAME] = (bool)$input[SCSS3B_DEFAULT_NOFOLLOW_NAME];
+			$input[SCSS3B_DEFAULT_NEWWINDOW_NAME] = (bool)$input[SCSS3B_DEFAULT_NEWWINDOW_NAME];
+			$input[SCSS3B_DEFAULT_URL_NAME] = esc_url($input[SCSS3B_DEFAULT_URL_NAME]);
+			$input[SCSS3B_DEFAULT_STYLE_NAME] = sanitize_html_class($input[SCSS3B_DEFAULT_STYLE_NAME]);
+			$input[SCSS3B_DEFAULT_CUSTOM_STYLE_NAME] = sanitize_html_class($input[SCSS3B_DEFAULT_CUSTOM_STYLE_NAME]);
+			$input[SCSS3B_DEFAULT_CUSTOM_CSS_NAME] = sanitize_text_field($input[SCSS3B_DEFAULT_CUSTOM_CSS_NAME]);
+		}
 		return $input;
 	}
 	// add Settings sub-menu
@@ -87,10 +89,10 @@ License: GPLv2 or later
 		?>
 		<div class="wrap">
 			<h2 id="plugintitle"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/colors.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php echo SCSS3B_PLUGIN_NAME; ?> by <a href="http://www.jimmyscode.com/">Jimmy Pe&ntilde;a</a></h2>
-			<div>You are running plugin version <strong><?php echo SCSS3B_VERSION; ?></strong>.</div>
+			<div><?php _e('You are running plugin version', scss3b_get_local()); ?> <strong><?php echo SCSS3B_VERSION; ?></strong>.</div>
 			
 			<?php /* http://code.tutsplus.com/tutorials/the-complete-guide-to-the-wordpress-settings-api-part-5-tabbed-navigation-for-your-settings-page--wp-24971 */ ?>
-			<?php $active_tab = (isset($_GET['tab']) ? $_GET['tab'] : 'settings'); ?>
+			<?php $active_tab = (!empty($_GET['tab']) ? $_GET['tab'] : 'settings'); ?>
 			<h2 class="nav-tab-wrapper">
 			  <a href="?page=<?php echo scss3b_get_slug(); ?>&tab=settings" class="nav-tab <?php echo $active_tab == 'settings' ? 'nav-tab-active' : ''; ?>"><?php _e('Settings', scss3b_get_local()); ?></a>
 				<a href="?page=<?php echo scss3b_get_slug(); ?>&tab=parameters" class="nav-tab <?php echo $active_tab == 'parameters' ? 'nav-tab-active' : ''; ?>"><?php _e('Parameters', scss3b_get_local()); ?></a>
@@ -105,39 +107,45 @@ License: GPLv2 or later
 			<h3 id="settings"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/settings.png'); ?>" title="" alt="" height="61" width="64" align="absmiddle" /> <?php _e('Plugin Settings', scss3b_get_local()); ?></h3>
 				<table class="form-table" id="theme-options-wrap">
 					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Is plugin enabled? Uncheck this to turn it off temporarily.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]"><?php _e('Plugin enabled?', scss3b_get_local()); ?></label></strong></th>
-						<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_ENABLED_NAME]); ?> /></td>
+						<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" value="1" <?php checked('1', scss3b_checkifset(SCSS3B_DEFAULT_ENABLED_NAME, SCSS3B_DEFAULT_ENABLED, $options)); ?> /></td>
 					</tr>
-					<tr valign="top"><td colspan="2"><?php _e('Is plugin enabled? Uncheck this to turn it off temporarily.', scss3b_get_local()); ?></td></tr>
+					<?php scss3b_explanationrow(__('Is plugin enabled? Uncheck this to turn it off temporarily.', scss3b_get_local())); ?>
+					<?php scss3b_getlinebreak(); ?>
 					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Select the style you would like to use as the default.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]"><?php _e('Default style', scss3b_get_local()); ?></label></strong></th>
 						<td><select id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_STYLE_NAME; ?>]">
 						<?php $buttonstyles = explode(",", SCSS3B_AVAILABLE_STYLES);
 							sort($buttonstyles);
 							foreach($buttonstyles as $buttonstyle) {
-								echo '<option value="' . $buttonstyle . '"' . selected($buttonstyle, $options[SCSS3B_DEFAULT_STYLE_NAME], false) . '>' . $buttonstyle . '</option>';
+								echo '<option value="' . $buttonstyle . '"' . selected($buttonstyle, scss3b_checkifset(SCSS3B_DEFAULT_STYLE_NAME, SCSS3B_DEFAULT_STYLE, $options), false) . '>' . $buttonstyle . '</option>';
 							} ?>
 						</select></td>
 					</tr>
-			<tr valign="top"><td colspan="2"><?php _e('Select the style you would like to use as the default if no style is otherwise specified.', scss3b_get_local()); ?></td></tr>
+			<?php scss3b_explanationrow(__('Select the style you would like to use as the default if no style is otherwise specified.', scss3b_get_local())); ?>
+			<?php scss3b_getlinebreak(); ?>
 			<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter default URL to use for buttons, if you do not pass one to the plugin via shortcode or function.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]"><?php _e('Default button URL', scss3b_get_local()); ?></label></strong></th>
-			<td><input type="url" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" value="<?php echo $options[SCSS3B_DEFAULT_URL_NAME]; ?>" /></td>
+			<td><input type="url" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_URL_NAME; ?>]" value="<?php echo scss3b_checkifset(SCSS3B_DEFAULT_URL_NAME, SCSS3B_DEFAULT_URL, $options); ?>" /></td>
 					</tr>
-			<tr valign="top"><td colspan="2"><?php _e('Enter default URL to use for buttons. This URL will be used if you do not override it at the shortcode level.', scss3b_get_local()); ?></td></tr>
+			<?php scss3b_explanationrow(__('Enter default URL to use for buttons. This URL will be used if you do not override it at the shortcode level.', scss3b_get_local())); ?>
+			<?php scss3b_getlinebreak(); ?>
 					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Check this box to add rel=nofollow to button links.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]"><?php _e('Nofollow button link?', scss3b_get_local()); ?></label></strong></th>
-			<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NOFOLLOW_NAME]); ?> /></td>
+			<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NOFOLLOW_NAME; ?>]" value="1" <?php checked('1', scss3b_checkifset(SCSS3B_DEFAULT_NOFOLLOW_NAME, SCSS3B_DEFAULT_NOFOLLOW, $options)); ?> /></td>
 					</tr>
-			<tr valign="top"><td colspan="2"><?php _e('Check this box to add rel="nofollow" to button links. You can override this at the shortcode level.', scss3b_get_local()); ?></td></tr>
+			<?php scss3b_explanationrow(__('Check this box to add rel="nofollow" to button links. You can override this at the shortcode level.', scss3b_get_local())); ?>
+			<?php scss3b_getlinebreak(); ?>
 			<tr valign="top"><th scope="row"><strong><label title="<?php _e('Check this box to open links in a new window.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]"><?php _e('Open links in new window?', scss3b_get_local()); ?></label></strong></th>
-				<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" value="1" <?php checked('1', $options[SCSS3B_DEFAULT_NEWWINDOW_NAME]); ?> /></td>
+				<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_NEWWINDOW_NAME; ?>]" value="1" <?php checked('1', scss3b_checkifset(SCSS3B_DEFAULT_NEWWINDOW_NAME, SCSS3B_DEFAULT_NEWWINDOW, $options)); ?> /></td>
 			</tr>
-			<tr valign="top"><td colspan="2"><?php _e('Check this box to open links in a new window. You can override this at the shortcode level.', scss3b_get_local()); ?></td></tr>
+			<?php scss3b_explanationrow(__('Check this box to open links in a new window. You can override this at the shortcode level.', scss3b_get_local())); ?>
+			<?php scss3b_getlinebreak(); ?>
 					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter custom CSS', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]"><?php _e('Enter custom CSS', scss3b_get_local()); ?></label></strong></th>
-			<td><textarea rows="12" cols="75" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]"><?php echo $options[SCSS3B_DEFAULT_CUSTOM_CSS_NAME]; ?></textarea></td>
+			<td><textarea rows="12" cols="75" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_CSS_NAME; ?>]"><?php echo scss3b_checkifset(SCSS3B_DEFAULT_CUSTOM_CSS_NAME, SCSS3B_DEFAULT_CUSTOM_CSS, $options); ?></textarea></td>
 			</tr>
-			<tr valign="top"><td colspan="2"><?php _e('If you use your own custom class names, enter the CSS here. Use the custom class name (minus the "scss3b-button-" prefix) in the shortcode or when calling the function in PHP.', scss3b_get_local()); ?></td></tr>
+			<?php scss3b_explanationrow(__('If you use your own custom class names, enter the CSS here. Use the custom class name (minus the "scss3b-button-" prefix) in the shortcode or when calling the function in PHP.', scss3b_get_local())); ?>
+			<?php scss3b_getlinebreak(); ?>
 			<tr valign="top"><th scope="row"><strong><label title="<?php _e('Enter custom CSS class name', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_STYLE_NAME; ?>]"><?php _e('Enter custom CSS class name', scss3b_get_local()); ?></label></strong></th>
-				<td><input type="text" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_STYLE_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_STYLE_NAME; ?>]" value="<?php echo $options[SCSS3B_DEFAULT_CUSTOM_STYLE_NAME]; ?>" /></td>
+				<td><input type="text" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_STYLE_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_CUSTOM_STYLE_NAME; ?>]" value="<?php echo scss3b_checkifset(SCSS3B_DEFAULT_CUSTOM_STYLE_NAME, SCSS3B_DEFAULT_CUSTOM_STYLE, $options); ?>" /></td>
 					</tr>
-			<tr valign="top"><td colspan="2"><?php _e('Add an additional CSS class here. This class name will be added to the button.', scss3b_get_local()); ?></td></tr>
+			<?php scss3b_explanationrow(__('Add an additional CSS class here. This class name will be added to the button.', scss3b_get_local())); ?>
 				</table>
 				<?php submit_button(); ?>
 			<?php } elseif ($active_tab == 'parameters') { ?>
@@ -171,7 +179,13 @@ License: GPLv2 or later
 		extract(shortcode_atts(scss3b_shortcode_defaults(), $atts));
 		// plugin is enabled/disabled from settings page only
 		$options = scss3b_getpluginoptions();
-		$enabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
+		if (!empty($options)) {
+			$enabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
+		} else {
+			$enabled = SCSS3B_DEFAULT_ENABLED;
+		}
+		
+		$output = '';
 		
 		// ******************************
 		// derive shortcode values from constants
@@ -209,9 +223,9 @@ License: GPLv2 or later
 			$show = (bool)$show;
 
 			// allow alternate parameter names for url
-			if (isset($atts['url'])) {
+			if (!empty($atts['url'])) {
 				$linkurl = esc_url($atts['url']);
-			} elseif (isset($atts['link'])) {
+			} elseif (!empty($atts['link'])) {
 				$linkurl = esc_url($atts['link']);
 			}
 		}
@@ -296,17 +310,19 @@ License: GPLv2 or later
 		global $pagenow;
 		if (current_user_can(SCSS3B_PERMISSIONS_LEVEL)) { // user has privilege
 			if ($pagenow == 'options-general.php') { // we are on Settings page
-				if ($_GET['page'] == scss3b_get_slug()) { // we are on this plugin's settings page
-					$options = scss3b_getpluginoptions();
-					if ($options != false) {
-						$enabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
-						$cssclass = $options[SCSS3B_DEFAULT_STYLE_NAME];
-						$linkurl = $options[SCSS3B_DEFAULT_URL_NAME];
-						if (!$enabled) {
-							echo '<div id="message" class="error">' . SCSS3B_PLUGIN_NAME . ' ' . __('is currently disabled.', scss3b_get_local()) . '</div>';
-						}
-						if (($cssclass === SCSS3B_DEFAULT_STYLE) || ($cssclass === false) || ($linkurl === SCSS3B_DEFAULT_URL) || ($linkurl === false)) {
-							echo '<div id="message" class="updated">' . __('Please confirm the default CSS style and URL and click "Save".', scss3b_get_local()) . '</div>';
+				if (!empty($_GET['page'])) {
+					if ($_GET['page'] == scss3b_get_slug()) { // we are on this plugin's settings page
+						$options = scss3b_getpluginoptions();
+						if (!empty($options)) {
+							$enabled = (bool)$options[SCSS3B_DEFAULT_ENABLED_NAME];
+							$cssclass = $options[SCSS3B_DEFAULT_STYLE_NAME];
+							$linkurl = $options[SCSS3B_DEFAULT_URL_NAME];
+							if (!$enabled) {
+								echo '<div id="message" class="error">' . SCSS3B_PLUGIN_NAME . ' ' . __('is currently disabled.', scss3b_get_local()) . '</div>';
+							}
+							if (($cssclass === SCSS3B_DEFAULT_STYLE) || ($cssclass === false) || ($linkurl === SCSS3B_DEFAULT_URL) || ($linkurl === false)) {
+								echo '<div id="message" class="updated">' . __('Please confirm the default CSS style and URL and click "Save".', scss3b_get_local()) . '</div>';
+							}
 						}
 					}
 				}
@@ -319,8 +335,10 @@ License: GPLv2 or later
 		global $pagenow;
 		if (current_user_can(SCSS3B_PERMISSIONS_LEVEL)) { // user has privilege
 			if ($pagenow == 'options-general.php') {
-				if ($_GET['page'] == scss3b_get_slug()) { // we are on this plugin's settings page
-					scss3b_admin_styles();
+				if (!empty($_GET['page'])) {
+					if ($_GET['page'] == scss3b_get_slug()) { // we are on this plugin's settings page
+						scss3b_admin_styles();
+					}
 				}
 			}
 		}
@@ -587,5 +605,14 @@ License: GPLv2 or later
 		$output .= '<br />}';
 		$output .= '</pre>';
 		return $output;	
+	}
+	function scss3b_checkifset($optionname, $optiondefault, $optionsarr) {
+		return (!empty($optionsarr[$optionname]) ? $optionsarr[$optionname] : $optiondefault);
+	}
+	function scss3b_getlinebreak() {
+	  echo '<tr valign="top"><td colspan="2"></td></tr>';
+	}
+	function scss3b_explanationrow($msg = '') {
+		echo '<tr valign="top"><td></td><td><em>' . $msg . '</em></td></tr>';
 	}
 ?>

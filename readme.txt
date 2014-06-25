@@ -198,6 +198,10 @@ The Parameters tab also contains sample shortcode and PHP code.
 
 == Changelog ==
 
+= 0.2.7 =
+- code fix
+- admin CSS and page updates
+
 = 0.2.6 = 
 - code fix
 - if plugin is temporarily disabled (via plugin settings page), skip some code to save some cycles
@@ -320,6 +324,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.2.7 =
+- code fix; admin CSS and page updates
 
 = 0.2.6 = 
 - code fix; added enabled checks; added custom css class option; added jquery dependency; updated support tab
