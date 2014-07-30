@@ -3,15 +3,15 @@
 Plugin Name: Standout CSS3 Buttons
 Plugin URI: http://www.jimmyscode.com/wordpress/standout-css3-buttons/
 Description: Display CSS3 style buttons with gradient color styles on your website using popular social media colors.
-Version: 0.2.7
+Version: 0.2.8
 Author: Jimmy Pe&ntilde;a
 Author URI: http://www.jimmyscode.com/
 License: GPLv2 or later
 */
-
+if (!defined('SCSS3B_PLUGIN_NAME')) {
 	// plugin constants
 	define('SCSS3B_PLUGIN_NAME', 'Standout CSS3 Buttons');
-	define('SCSS3B_VERSION', '0.2.7');
+	define('SCSS3B_VERSION', '0.2.8');
 	define('SCSS3B_SLUG', 'standout-css3-buttons');
 	define('SCSS3B_LOCAL', 'scss3b');
 	define('SCSS3B_OPTION', 'scss3b');
@@ -37,7 +37,7 @@ License: GPLv2 or later
 	define('SCSS3B_DEFAULT_SHOW_NAME', 'show');
 	define('SCSS3B_DEFAULT_NEWWINDOW_NAME', 'opennewwindow');
 	define('SCSS3B_DEFAULT_CUSTOM_CSS_NAME', 'customcss');
-
+}
 	// oh no you don't
 	if (!defined('ABSPATH')) {
 		wp_die(__('Do not access this file directly.', scss3b_get_local()));
@@ -88,11 +88,11 @@ License: GPLv2 or later
 		}
 		?>
 		<div class="wrap">
-			<h2 id="plugintitle"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/colors.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php echo SCSS3B_PLUGIN_NAME; ?> by <a href="http://www.jimmyscode.com/">Jimmy Pe&ntilde;a</a></h2>
+			<h2 id="plugintitle"><img src="<?php echo scss3b_getimagefilename('colors.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php echo SCSS3B_PLUGIN_NAME; ?> by <a href="http://www.jimmyscode.com/">Jimmy Pe&ntilde;a</a></h2>
 			<div><?php _e('You are running plugin version', scss3b_get_local()); ?> <strong><?php echo SCSS3B_VERSION; ?></strong>.</div>
 			
 			<?php /* http://code.tutsplus.com/tutorials/the-complete-guide-to-the-wordpress-settings-api-part-5-tabbed-navigation-for-your-settings-page--wp-24971 */ ?>
-			<?php $active_tab = (!empty($_GET['tab']) ? $_GET['tab'] : 'settings'); ?>
+			<?php $active_tab = (isset($_GET['tab']) ? $_GET['tab'] : 'settings'); ?>
 			<h2 class="nav-tab-wrapper">
 			  <a href="?page=<?php echo scss3b_get_slug(); ?>&tab=settings" class="nav-tab <?php echo $active_tab == 'settings' ? 'nav-tab-active' : ''; ?>"><?php _e('Settings', scss3b_get_local()); ?></a>
 				<a href="?page=<?php echo scss3b_get_slug(); ?>&tab=parameters" class="nav-tab <?php echo $active_tab == 'parameters' ? 'nav-tab-active' : ''; ?>"><?php _e('Parameters', scss3b_get_local()); ?></a>
@@ -104,7 +104,7 @@ License: GPLv2 or later
 			<?php $options = scss3b_getpluginoptions(); ?>
 			<?php update_option(scss3b_get_option(), $options); ?>
 			<?php if ($active_tab == 'settings') { ?>
-			<h3 id="settings"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/settings.png'); ?>" title="" alt="" height="61" width="64" align="absmiddle" /> <?php _e('Plugin Settings', scss3b_get_local()); ?></h3>
+			<h3 id="settings"><img src="<?php echo scss3b_getimagefilename('settings.png'); ?>" title="" alt="" height="61" width="64" align="absmiddle" /> <?php _e('Plugin Settings', scss3b_get_local()); ?></h3>
 				<table class="form-table" id="theme-options-wrap">
 					<tr valign="top"><th scope="row"><strong><label title="<?php _e('Is plugin enabled? Uncheck this to turn it off temporarily.', scss3b_get_local()); ?>" for="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]"><?php _e('Plugin enabled?', scss3b_get_local()); ?></label></strong></th>
 						<td><input type="checkbox" id="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" name="<?php echo scss3b_get_option(); ?>[<?php echo SCSS3B_DEFAULT_ENABLED_NAME; ?>]" value="1" <?php checked('1', scss3b_checkifset(SCSS3B_DEFAULT_ENABLED_NAME, SCSS3B_DEFAULT_ENABLED, $options)); ?> /></td>
@@ -149,14 +149,14 @@ License: GPLv2 or later
 				</table>
 				<?php submit_button(); ?>
 			<?php } elseif ($active_tab == 'parameters') { ?>
-			<h3 id="parameters"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/parameters.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php _e('Plugin Parameters and Default Values', scss3b_get_local()); ?></h3>
+			<h3 id="parameters"><img src="<?php echo scss3b_getimagefilename('parameters.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php _e('Plugin Parameters and Default Values', scss3b_get_local()); ?></h3>
 			These are the parameters for using the shortcode, or calling the plugin from your PHP code.
 			
 			For available colors, see the dropdown list above.
 
 			<?php echo scss3b_parameters_table(scss3b_get_local(), scss3b_shortcode_defaults(), scss3b_required_parameters()); ?>			
 
-			<h3 id="examples"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/examples.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php _e('Shortcode and PHP Examples', scss3b_get_local()); ?></h3>
+			<h3 id="examples"><img src="<?php echo scss3b_getimagefilename('examples.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php _e('Shortcode and PHP Examples', scss3b_get_local()); ?></h3>
 			<h4><?php _e('Shortcode Format:', scss3b_get_local()); ?></h4>
 			<?php echo '<pre style="background:#FFF">' . scss3b_get_example_shortcode('standout-css3-button', scss3b_shortcode_defaults(), scss3b_get_local()) . 'Content goes here[/standout-css3-button]</pre>'; ?>
 
@@ -164,7 +164,7 @@ License: GPLv2 or later
 			<?php echo scss3b_get_example_php_code('standout-css3-button', 'scss3button', scss3b_shortcode_defaults()); ?>
 			<?php _e('<small>Note: \'show\' is false by default; set it to <strong>true</strong> echo the output, or <strong>false</strong> to return the output to your PHP code.</small>', scss3b_get_local()); ?>
 			<?php } else { ?>
-			<h3 id="support"><img src="<?php echo plugins_url(scss3b_get_path() . '/images/support.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php _e('Support', scss3b_get_local()); ?></h3>
+			<h3 id="support"><img src="<?php echo scss3b_getimagefilename('support.png'); ?>" title="" alt="" height="64" width="64" align="absmiddle" /> <?php _e('Support', scss3b_get_local()); ?></h3>
 				<div class="support">
 				<?php echo scss3b_getsupportinfo(scss3b_get_slug(), scss3b_get_local()); ?>
 				</div>
@@ -310,7 +310,7 @@ License: GPLv2 or later
 		global $pagenow;
 		if (current_user_can(SCSS3B_PERMISSIONS_LEVEL)) { // user has privilege
 			if ($pagenow == 'options-general.php') { // we are on Settings page
-				if (!empty($_GET['page'])) {
+				if (isset($_GET['page'])) {
 					if ($_GET['page'] == scss3b_get_slug()) { // we are on this plugin's settings page
 						$options = scss3b_getpluginoptions();
 						if (!empty($options)) {
@@ -335,7 +335,7 @@ License: GPLv2 or later
 		global $pagenow;
 		if (current_user_can(SCSS3B_PERMISSIONS_LEVEL)) { // user has privilege
 			if ($pagenow == 'options-general.php') {
-				if (!empty($_GET['page'])) {
+				if (isset($_GET['page'])) {
 					if ($_GET['page'] == scss3b_get_slug()) { // we are on this plugin's settings page
 						scss3b_admin_styles();
 					}
@@ -607,12 +607,15 @@ License: GPLv2 or later
 		return $output;	
 	}
 	function scss3b_checkifset($optionname, $optiondefault, $optionsarr) {
-		return (!empty($optionsarr[$optionname]) ? $optionsarr[$optionname] : $optiondefault);
+		return (isset($optionsarr[$optionname]) ? $optionsarr[$optionname] : $optiondefault);
 	}
 	function scss3b_getlinebreak() {
 	  echo '<tr valign="top"><td colspan="2"></td></tr>';
 	}
 	function scss3b_explanationrow($msg = '') {
 		echo '<tr valign="top"><td></td><td><em>' . $msg . '</em></td></tr>';
+	}
+	function scss3b_getimagefilename($fname = '') {
+		return plugins_url(scss3b_get_path() . '/images/' . $fname);
 	}
 ?>

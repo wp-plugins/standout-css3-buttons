@@ -198,6 +198,9 @@ The Parameters tab also contains sample shortcode and PHP code.
 
 == Changelog ==
 
+= 0.2.8 =
+- fixed validation issue
+
 = 0.2.7 =
 - code fix
 - admin CSS and page updates
@@ -324,6 +327,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.2.8 =
+- fixed validation issue
 
 = 0.2.7 =
 - code fix; admin CSS and page updates
