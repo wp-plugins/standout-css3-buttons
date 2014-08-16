@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Standout CSS3 Buttons package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Standout CSS3 Buttons 0.2.1\n"
+"Project-Id-Version: Standout CSS3 Buttons 0.2.8\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/standout-css3-buttons\n"
-"POT-Creation-Date: 2014-04-16 00:08:07+00:00\n"
+"POT-Creation-Date: 2014-08-14 16:42:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,196 +12,271 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: standout-css3-buttons.php:38
+#: standout-css3-buttons.php:43
 msgid "Do not access this file directly."
 msgstr ""
 
-#: standout-css3-buttons.php:85
+#: standout-css3-buttons.php:87
 msgid "You do not have sufficient permission to access this page"
 msgstr ""
 
-#: standout-css3-buttons.php:98 standout-css3-buttons.php:101
-msgid "Is plugin enabled? Uncheck this to turn it off temporarily."
+#: standout-css3-buttons.php:92
+msgid "You are running plugin version"
+msgstr ""
+
+#: standout-css3-buttons.php:97
+msgid "Settings"
 msgstr ""
 
 #: standout-css3-buttons.php:98
+msgid "Parameters"
+msgstr ""
+
+#: standout-css3-buttons.php:99 standout-css3-buttons.php:167
+msgid "Support"
+msgstr ""
+
+#: standout-css3-buttons.php:107
+msgid "Plugin Settings"
+msgstr ""
+
+#: standout-css3-buttons.php:109 standout-css3-buttons.php:112
+msgid "Is plugin enabled? Uncheck this to turn it off temporarily."
+msgstr ""
+
+#: standout-css3-buttons.php:109
 msgid "Plugin enabled?"
 msgstr ""
 
-#: standout-css3-buttons.php:102
+#: standout-css3-buttons.php:114
 msgid "Select the style you would like to use as the default."
 msgstr ""
 
-#: standout-css3-buttons.php:102
+#: standout-css3-buttons.php:114
 msgid "Default style"
 msgstr ""
 
-#: standout-css3-buttons.php:111
+#: standout-css3-buttons.php:123
 msgid ""
 "Select the style you would like to use as the default if no style is "
 "otherwise specified."
 msgstr ""
 
-#: standout-css3-buttons.php:113
+#: standout-css3-buttons.php:125
 msgid ""
 "Enter default URL to use for buttons, if you do not pass one to the plugin "
 "via shortcode or function."
 msgstr ""
 
-#: standout-css3-buttons.php:113
+#: standout-css3-buttons.php:125
 msgid "Default button URL"
 msgstr ""
 
-#: standout-css3-buttons.php:116
+#: standout-css3-buttons.php:128
 msgid ""
 "Enter default URL to use for buttons. This URL will be used if you do not "
 "override it at the shortcode level."
 msgstr ""
 
-#: standout-css3-buttons.php:117
+#: standout-css3-buttons.php:130
 msgid "Check this box to add rel=nofollow to button links."
 msgstr ""
 
-#: standout-css3-buttons.php:117
+#: standout-css3-buttons.php:130
 msgid "Nofollow button link?"
 msgstr ""
 
-#: standout-css3-buttons.php:120
+#: standout-css3-buttons.php:133
 msgid ""
 "Check this box to add rel=\"nofollow\" to button links. You can override "
 "this at the shortcode level."
 msgstr ""
 
-#: standout-css3-buttons.php:121
+#: standout-css3-buttons.php:135
 msgid "Check this box to open links in a new window."
 msgstr ""
 
-#: standout-css3-buttons.php:121
+#: standout-css3-buttons.php:135
 msgid "Open links in new window?"
 msgstr ""
 
-#: standout-css3-buttons.php:124
+#: standout-css3-buttons.php:138
 msgid ""
 "Check this box to open links in a new window. You can override this at the "
 "shortcode level."
 msgstr ""
 
-#: standout-css3-buttons.php:125
+#: standout-css3-buttons.php:140
 msgid "Enter custom CSS"
 msgstr ""
 
-#: standout-css3-buttons.php:128
+#: standout-css3-buttons.php:143
 msgid ""
 "If you use your own custom class names, enter the CSS here. Use the custom "
 "class name (minus the \"scss3b-button-\" prefix) in the shortcode or when "
 "calling the function in PHP."
 msgstr ""
 
-#: standout-css3-buttons.php:140
-msgid "The name of the parameter"
+#: standout-css3-buttons.php:145
+msgid "Enter custom CSS class name"
 msgstr ""
 
-#: standout-css3-buttons.php:140
-msgid "Parameter Name"
+#: standout-css3-buttons.php:148
+msgid ""
+"Add an additional CSS class here. This class name will be added to the "
+"button."
 msgstr ""
 
-#: standout-css3-buttons.php:141
-msgid "Is this parameter required?"
-msgstr ""
-
-#: standout-css3-buttons.php:141
-msgid "Is Required?"
-msgstr ""
-
-#: standout-css3-buttons.php:142
-msgid "What data type this parameter accepts"
-msgstr ""
-
-#: standout-css3-buttons.php:142
-msgid "Data Type"
-msgstr ""
-
-#: standout-css3-buttons.php:143
-msgid "What, if any, is the default if no value is specified"
-msgstr ""
-
-#: standout-css3-buttons.php:143
-msgid "Default Value"
-msgstr ""
-
-#: standout-css3-buttons.php:156
-msgid "Yes"
+#: standout-css3-buttons.php:152
+msgid "Plugin Parameters and Default Values"
 msgstr ""
 
 #: standout-css3-buttons.php:159
-msgid "No"
+msgid "Shortcode and PHP Examples"
 msgstr ""
 
-#: standout-css3-buttons.php:166
-msgid "true"
+#: standout-css3-buttons.php:160
+msgid "Shortcode Format:"
 msgstr ""
 
-#: standout-css3-buttons.php:169
-msgid "false"
+#: standout-css3-buttons.php:163
+msgid "PHP Format:"
 msgstr ""
 
-#: standout-css3-buttons.php:172
-msgid "this value is blank by default"
+#: standout-css3-buttons.php:165
+msgid ""
+"<small>Note: 'show' is false by default; set it to <strong>true</strong> "
+"echo the output, or <strong>false</strong> to return the output to your PHP "
+"code.</small>"
 msgstr ""
 
-#: standout-css3-buttons.php:185 standout-css3-buttons.php:369
-msgid "Documentation"
-msgstr ""
-
-#: standout-css3-buttons.php:186 standout-css3-buttons.php:370
-msgid "FAQ"
-msgstr ""
-
-#: standout-css3-buttons.php:187
-msgid "If you like this plugin, please "
-msgstr ""
-
-#: standout-css3-buttons.php:189
-msgid "rate it on WordPress.org"
-msgstr ""
-
-#: standout-css3-buttons.php:191
-msgid "and click the "
-msgstr ""
-
-#: standout-css3-buttons.php:193
-msgid "Works"
-msgstr ""
-
-#: standout-css3-buttons.php:195
-msgid "button. For support please visit the "
-msgstr ""
-
-#: standout-css3-buttons.php:197
-msgid "forums"
-msgstr ""
-
-#: standout-css3-buttons.php:247 standout-css3-buttons.php:253
-#: standout-css3-buttons.php:308
+#: standout-css3-buttons.php:240 standout-css3-buttons.php:248
+#: standout-css3-buttons.php:297
 msgid ""
 "plugin is disabled. Either you did not pass a necessary setting to the "
 "plugin, or did not configure a default. Check Settings page."
 msgstr ""
 
-#: standout-css3-buttons.php:330
+#: standout-css3-buttons.php:321
 msgid "is currently disabled."
 msgstr ""
 
-#: standout-css3-buttons.php:333
+#: standout-css3-buttons.php:324
 msgid "Please confirm the default CSS style and URL and click \"Save\"."
 msgstr ""
 
-#: standout-css3-buttons.php:356
-msgid "Settings"
+#: standout-css3-buttons.php:359
+msgid "<a href=\"http://wordpress.org/support/plugin/%s\">Support</a>"
 msgstr ""
 
-#: standout-css3-buttons.php:368
-msgid "Support"
+#: standout-css3-buttons.php:360 standout-css3-buttons.php:489
+msgid "<a href=\"http://wordpress.org/extend/plugins/%s/\">Documentation</a>"
+msgstr ""
+
+#: standout-css3-buttons.php:361
+msgid "<a href=\"http://wordpress.org/plugins/%s/faq/\">FAQ</a>"
+msgstr ""
+
+#: standout-css3-buttons.php:473
+msgid "<a href=\"options-general.php?page=%s\">Settings</a>"
+msgstr ""
+
+#: standout-css3-buttons.php:487
+msgid "Do you need help with this plugin? Check out the following resources:"
+msgstr ""
+
+#: standout-css3-buttons.php:490
+msgid "<a href=\"http://wordpress.org/plugins/%s/faq/\">FAQ</a><br />"
+msgstr ""
+
+#: standout-css3-buttons.php:491
+msgid ""
+"<a href=\"http://wordpress.org/support/plugin/%s\">Support Forum</a><br />"
+msgstr ""
+
+#: standout-css3-buttons.php:492
+msgid ""
+"<a href=\"http://www.jimmyscode.com/wordpress/%s\">Plugin Homepage / Demo</"
+"a><br />"
+msgstr ""
+
+#: standout-css3-buttons.php:493
+msgid ""
+"<a href=\"http://wordpress.org/extend/plugins/%s/developers/\">Development</"
+"a><br />"
+msgstr ""
+
+#: standout-css3-buttons.php:494
+msgid ""
+"<a href=\"http://wordpress.org/plugins/%s/changelog/\">Changelog</a><br />"
+msgstr ""
+
+#: standout-css3-buttons.php:497
+msgid ""
+"If you like this plugin, please <a href=\"http://wordpress.org/support/view/"
+"plugin-reviews/%s/\">rate it on WordPress.org</a>"
+msgstr ""
+
+#: standout-css3-buttons.php:498
+msgid ""
+" and click the <a href=\"http://wordpress.org/plugins/%s/#compatibility"
+"\">Works</a> button. "
+msgstr ""
+
+#: standout-css3-buttons.php:500
+msgid "Your donations encourage further development and support. "
+msgstr ""
+
+#: standout-css3-buttons.php:509
+msgid "The name of the parameter"
+msgstr ""
+
+#: standout-css3-buttons.php:509
+msgid "Parameter Name"
+msgstr ""
+
+#: standout-css3-buttons.php:510
+msgid "Is this parameter required?"
+msgstr ""
+
+#: standout-css3-buttons.php:510
+msgid "Is Required?"
+msgstr ""
+
+#: standout-css3-buttons.php:511
+msgid "What data type this parameter accepts"
+msgstr ""
+
+#: standout-css3-buttons.php:511
+msgid "Data Type"
+msgstr ""
+
+#: standout-css3-buttons.php:512
+msgid "What, if any, is the default if no value is specified"
+msgstr ""
+
+#: standout-css3-buttons.php:512
+msgid "Default Value"
+msgstr ""
+
+#: standout-css3-buttons.php:526
+msgid "Yes"
+msgstr ""
+
+#: standout-css3-buttons.php:529
+msgid "No"
+msgstr ""
+
+#: standout-css3-buttons.php:538
+msgid "true"
+msgstr ""
+
+#: standout-css3-buttons.php:541
+msgid "false"
+msgstr ""
+
+#: standout-css3-buttons.php:544
+msgid "this value is blank by default"
 msgstr ""
 
 #. Plugin Name of the plugin/theme

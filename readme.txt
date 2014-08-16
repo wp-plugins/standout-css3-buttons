@@ -16,6 +16,14 @@ Based on <a href="http://www.briangardner.com/social-media-buttons/">this blog p
 
 You can also call the plugin in your functions.php or in a plugin. Choose from several different color styles, partially inspired by social media, or create your own.
 
+<h3>If you need help with this plugin</h3>
+
+If this plugin breaks your site or just flat out does not work, please go to <a href="http://wordpress.org/plugins/standout-css3-buttons/#compatibility">Compatibility</a> and click "Broken" after verifying your WordPress version and the version of the plugin you are using.
+
+Then, create a thread in the <a href="http://wordpress.org/support/plugin/standout-css3-buttons">Support</a> forum with a description of the issue. Make sure you are using the latest version of WordPress and the plugin before reporting issues, to be sure that the issue is with the current version and not with an older version where the issue may have already been fixed.
+
+<strong>Please do not use the <a href="http://wordpress.org/support/view/plugin-reviews/standout-css3-buttons">Reviews</a> section to report issues or request new features.</strong>
+
 = Features =
 
 - Create unlimited number of modern style buttons
@@ -198,6 +206,9 @@ The Parameters tab also contains sample shortcode and PHP code.
 
 == Changelog ==
 
+= 0.2.9 =
+- updated .pot file and readme
+
 = 0.2.8 =
 - fixed validation issue
 
@@ -327,6 +338,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.2.9 =
+- updated .pot file and readme
 
 = 0.2.8 =
 - fixed validation issue
