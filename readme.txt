@@ -1,7 +1,7 @@
 === Standout CSS3 Buttons ===
 Tags: css3, button, gradient, link, rounded, CSS button
-Requires at least: 3.5
-Tested up to: 3.9
+Requires at least: 4.0
+Tested up to: 4.1
 Contributors: jp2112
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7EX9NB9TLFHVW
 Stable tag: trunk
@@ -206,6 +206,9 @@ The Parameters tab also contains sample shortcode and PHP code.
 
 == Changelog ==
 
+= 0.3.0 =
+- confirmed compatibility with WordPress 4.1
+
 = 0.2.9 =
 - updated .pot file and readme
 
@@ -338,6 +341,9 @@ added textbox to enter your own css class name, which you must define in your ow
 created
 
 == Upgrade Notice ==
+
+= 0.3.0 =
+- confirmed compatibility with WordPress 4.1
 
 = 0.2.9 =
 - updated .pot file and readme
